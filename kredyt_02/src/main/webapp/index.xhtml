@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="/templates/page-template.xhtml">
+
+	<ui:define name="pageContent">
+
+		<p:panel header="Kalkulator kredytowy">
+
+			<p:messages id="msg" />
+			
+			<h:form>
+				<h:panelGrid columns="2" cellpadding="5" styleClass="bottom-space">
+					<p:outputLabel for="kwota" value="Kwota pożyczki:" />
+					<p:inputText id="kwota" value="#{kredytBB.kwota}" />
+					<p:outputLabel for="ilelat" value="Na ile lat:" />
+					<p:inputText id="ilelat" value="#{kredytBB.ilelat}" />
+					<p:outputLabel for="oprocentowanie" value="Oprocentowanie:" />
+					<p:inputText id="oprocentowanie" value="#{kredytBB.oprocentowanie}" />
+					<p:commandButton value="Dodaj" action="#{kredytBB.calc()}" update="msg" />
+				</h:panelGrid>
+				<p:commandLink value="Informacje" action="#{kredytBB.info()}" />
+				
+				<!--
+				<h:commandButton value="Dodaj (AJAX)" action="#{kredytBB.calc_AJAX()}">
+					<f:ajax execute="@form" render="msg" />
+				</h:commandButton>
+				 -->
+			</h:form>
+			
+		</p:panel>
+		
+	</ui:define>
+	
+</ui:composition>
+</html>
