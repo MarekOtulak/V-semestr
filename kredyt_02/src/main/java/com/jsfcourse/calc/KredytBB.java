@@ -1,10 +1,10 @@
 package com.jsfcourse.calc;
 
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 @Named
 @RequestScoped
@@ -35,7 +35,7 @@ public class KredytBB {
 	public void setIlelat(String ilelat) {
 		this.ilelat = ilelat;
 	}
-	
+
 	public String getOprocentowanie() {
 		return oprocentowanie;
 	}
