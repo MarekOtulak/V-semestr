@@ -10,11 +10,17 @@
 	<title>Rata</title>
 </h:head>
 <h:body>
-	<p:messages />
-	wynik: #{kredytBB.result}
-	<h:form>
-		<p:commandButton value="Powrót" action="index" />
-	</h:form>
+	<p:panel>
+		<p:messages />
+		<div class="bottom-space">
+			<h:outputText value="wynik: #{kredytBB.result} "
+				rendered="#{kredytBB.result != null}" 
+			/>
+		</div>
+		<h:form>
+			<h:commandButton value="Powrót" action="index" />
+		</h:form>
+	</p:panel>
 </h:body>
 
 </html>

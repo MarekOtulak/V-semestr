@@ -63,7 +63,7 @@ public class KredytBB {
 			rata = kwota / miesiace;
 			procent_100 = oprocentowanie / 100;
 			result = rata + rata * procent_100;
-			//rata_proc = number_format(rata_proc, 2);
+			//result = number_format(result, 2);
 			//
 
 			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Operacja wykonana poprawnie", null));
@@ -87,6 +87,7 @@ public class KredytBB {
 	public String calc_AJAX() {
 		if (doTheMath()) {
 			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Twoja rata kredytu wynosi: " + result, null));
+
 		}
 		return null;
 	}

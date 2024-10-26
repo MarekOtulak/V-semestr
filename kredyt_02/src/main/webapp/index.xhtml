@@ -11,8 +11,9 @@
 </h:head>
 <h:body>
 	<p:panel header="Kalkulator kredytowy" style="margin: 1em auto;">
-		<h:form id ="bla">
-			<p:panelGrid columns="3" cellpadding="5" styleClass="bottom-space">
+		<p:messages id="msg" />
+		<h:form>
+			<h:panelGrid columns="2" cellpadding="5" styleClass="bottom-space">
 				<p:outputLabel for="kwota" value="Kwota pożyczki:" />
 				<p:inputText id="kwota" value="#{kredytBB.kwota}" required="true" requiredMessage="Brak kwoty pożyczki"/>
 				<p:outputLabel for="ilelat" value="Na ile lat:" />
@@ -20,12 +21,11 @@
 				<p:outputLabel for="oprocentowanie" value="Oprocentowanie:" />
 				<p:inputText id="oprocentowanie" value="#{kredytBB.oprocentowanie}" requiredMessage="Nie podano oprocentowania"/>
 				<p:commandButton value="Dodaj" action="#{kredytBB.calc()}" update="msg" />
-			</p:panelGrid>
+			</h:panelGrid>
 			<p:commandLink value="Informacje" action="#{kredytBB.info()}" />	
 			<p:commandButton value="Dodaj (AJAX)" action="#{kredytBB.calc_AJAX()}" update="msg" />
 		</h:form>
 	</p:panel>
-	
 </h:body>
 
 </html>
