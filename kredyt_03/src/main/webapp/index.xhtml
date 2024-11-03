@@ -17,9 +17,9 @@
 				<p:outputLabel for="kwota" value="Kwota pożyczki:" />
 				<p:inputText id="kwota" value="#{kredytBB.kwota}" required="true" requiredMessage="Brak kwoty pożyczki"/>
 				<p:outputLabel for="ilelat" value="Na ile lat:" />
-				<p:inputText id="ilelat" value="#{kredytBB.ilelat}" requiredMessage="Podaj ilość lat"/>
+				<p:inputText id="ilelat" value="#{kredytBB.ilelat}" required="true" requiredMessage="Nie podano ilości lat"/>
 				<p:outputLabel for="oprocentowanie" value="Oprocentowanie:" />
-				<p:inputText id="oprocentowanie" value="#{kredytBB.oprocentowanie}" requiredMessage="Nie podano oprocentowania"/>
+				<p:inputText id="oprocentowanie" value="#{kredytBB.oprocentowanie}" required="true" requiredMessage="Nie podano oprocentowania"/>
 				
 				<p:commandButton value="Dodaj" action="#{kredytBB.calc()}" update="msg" />
 				<p:commandButton value="Dodaj (AJAX)" action="#{kredytBB.calc_AJAX()}" update="msg" />

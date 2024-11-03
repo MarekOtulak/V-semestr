@@ -51,8 +51,51 @@ public class KredytBB {
 	public void setResult(Double result) {
 		this.result = result;
 	}
+	
+	//
+	private boolean validateInput() {
+		try {
+			double kwota = Double.parseDouble(this.kwota);
+			if (kwota < 5000) {
+				ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Kwota pozyczki musi wynosić conajmniej 5000 PLN", null));
+				return false;
+			}
+		} catch (NumberFormatException e) {
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Kwota musi być liczbą", null));
+			return false;
+		}
+
+		try {
+			double ilelat = Double.parseDouble(this.ilelat);
+			if (ilelat <= 0) {
+				ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Liczba lat musi być większa od zera", null));
+				return false;
+			}
+		} catch (NumberFormatException e) {
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Liczba lat musi być liczbą", null));
+			return false;
+		}
+
+		try {
+			double oprocentowanie = Double.parseDouble(this.oprocentowanie);
+			if (oprocentowanie < 0) {
+				ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Oprocentowanie nie może być ujemne", null));
+				return false;
+			}
+		} catch (NumberFormatException e) {
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Oprocentowanie musi być liczbą", null));
+			return false;
+		}
+
+		return true;
+	}
+	//
 
 	public boolean doTheMath() {
+		if (!validateInput()) {
+			return false;
+		}
+		
 		try {
 			double kwota = Double.parseDouble(this.kwota);
 			double ilelat = Double.parseDouble(this.ilelat);
