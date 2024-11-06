@@ -9,9 +9,9 @@ import jakarta.inject.Named;
 @Named
 @RequestScoped
 public class KredytBB {
-	private String kwota;
-	private String ilelat;
-	private String oprocentowanie;
+	private Double kwota;
+	private Double ilelat;
+	private Double oprocentowanie;
 	private Double miesiace;
 	private Double rata;
 	private Double procent_100;
@@ -20,27 +20,27 @@ public class KredytBB {
 	@Inject
 	FacesContext ctx;
 
-	public String getKwota() {
+	public Double getKwota() {
 		return kwota;
 	}
 
-	public void setKwota(String kwota) {
+	public void setKwota(Double kwota) {
 		this.kwota = kwota;
 	}
 
-	public String getIlelat() {
+	public Double getIlelat() {
 		return ilelat;
 	}
 
-	public void setIlelat(String ilelat) {
+	public void setIlelat(Double ilelat) {
 		this.ilelat = ilelat;
 	}
 
-	public String getOprocentowanie() {
+	public Double getOprocentowanie() {
 		return oprocentowanie;
 	}
 
-	public void setOprocentowanie(String oprocentowanie) {
+	public void setOprocentowanie(Double oprocentowanie) {
 		this.oprocentowanie = oprocentowanie;
 	}
 
@@ -54,9 +54,9 @@ public class KredytBB {
 	
 	public boolean doTheMath() {
 		try {
-			double kwota = Double.parseDouble(this.kwota);
-			double ilelat = Double.parseDouble(this.ilelat);
-			double oprocentowanie = Double.parseDouble(this.oprocentowanie);
+		//	double kwota = Double.parseDouble(this.kwota);
+		//	double ilelat = Double.parseDouble(this.ilelat);
+		//	double oprocentowanie = Double.parseDouble(this.oprocentowanie);
 
 			//
 			miesiace = ilelat * 12;
