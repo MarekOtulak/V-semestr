@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:p="http://primefaces.org/ui"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="/templates/page-template.xhtml">
+	<ui:define name="pageContent">
+		<p:panel header="Kalkulator kredytowy" style="margin: 1em auto;">
+			<p:messages id="msg" />
+			<h:form>
+				<h:panelGrid id="myGrid" columns="3" cellpadding="5" styleClass="cta bottom-space">
+					<p:outputLabel for="kwota" value="Kwota pożyczki:" />
+					<p:inputText id="kwota" value="#{kredytBB.kwota}" required="true" requiredMessage="Brak kwoty pożyczki"
+					converterMessage="Kwota kredytu musi być liczbą (użyj kropki zamiast przecinka)"
+					validatorMessage="Kwota pozyczki musi wynosić conajmniej 5000 PLN" class="textarea">
+					<f:validateLongRange minimum="5000"/>
+					</p:inputText>
+					<p:message for="kwota" />
+					
+					<p:outputLabel for="ilelat" value="Na ile lat:" />
+					<p:inputText id="ilelat" value="#{kredytBB.ilelat}" required="true" requiredMessage="Nie podano ilości lat"
+					converterMessage="Długość kredytu musi być liczbą całkowitą" validatorMessage="Kredyt musi trwać przynajmniej rok">
+					<f:validateLongRange minimum="1"/>
+					</p:inputText>
+					<p:message for="ilelat" />
+					
+					<p:outputLabel for="oprocentowanie" value="Oprocentowanie:" />
+					<p:inputText id="oprocentowanie" value="#{kredytBB.oprocentowanie}" required="true" requiredMessage="Nie podano oprocentowania"
+					converterMessage="Oprocentowanie kredytu musi być liczbą (użyj kropki zamiast przecinka)" 
+					validatorMessage="Oprocentowanie nie może być ujemne, lub przekraczać 100%">
+					<f:validateLongRange minimum="0" maximum="100"/>
+					</p:inputText>
+					<p:message for="oprocentowanie" />
+					
+					<p:commandButton value="Oblicz Miesięczną Ratę" action="#{kredytBB.calc()}" update="myGrid" />
+					<p:commandButton value="Oblicz Miesięczną Ratę (AJAX)" action="#{kredytBB.calc_AJAX()}" update="myGrid msg"/>
+				</h:panelGrid>
+				<p:messages id="msg" redisplay="false"/>
+			</h:form>
+		</p:panel>
+	</ui:define>
+	<!-- Scripts -->
+		<script src="template/js/main.js"></script>
+</ui:composition>
+</html>
