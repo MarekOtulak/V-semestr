@@ -3,10 +3,12 @@ package com.jsfcourse.calc;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Locale;
-//import java.io.Serializable;
+import java.io.Serializable;
 import java.util.ResourceBundle;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.annotation.ManagedProperty;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -14,9 +16,10 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-@Named
-@RequestScoped
-public class KredytBB /*implements Serializable*/ {
+@Named("KredytBB")
+//@RequestScoped
+@SessionScoped
+public class KredytBB implements Serializable {
 	private Double kwota;
 	private Double ilelat;
 	private Double oprocentowanie;
@@ -24,6 +27,7 @@ public class KredytBB /*implements Serializable*/ {
 	private Double rata;
 	private Double procent_100;
 	private Double result;
+	private String locale = "pl";
 
 	// Resource injected
 	@Inject
@@ -37,6 +41,20 @@ public class KredytBB /*implements Serializable*/ {
 
 	@Inject
 	FacesContext ctx;
+	
+	@PostConstruct
+	public void init() {
+        updateLocale();
+    }
+
+	public void setLocale(String language) {
+        this.locale = language;
+        updateLocale();
+    }
+	
+	public void updateLocale() {
+	    FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(this.locale));
+	}
 
 	public Double getKwota() {
 		return kwota;
@@ -97,6 +115,7 @@ public class KredytBB /*implements Serializable*/ {
 
 	// Go to "showresult" if ok
 	public String calc() {
+		updateLocale();
 		if (doTheMath()) {
 			return "showresult";
 		}
@@ -111,8 +130,8 @@ public class KredytBB /*implements Serializable*/ {
 		return null;
 	}
 	
-	public void setLocale(String language) {
+	/*public void setLocale(String language) {
 		FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(language));
-	}
+	}*/
 
 }

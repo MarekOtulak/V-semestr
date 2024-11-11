@@ -13,12 +13,12 @@
 	<p:panel>
 		<p:messages />
 		<div class="bottom-space">
-			<h:outputText value="#{txtKred.wynosi}: #{kredytBB.result} "
-				rendered="#{kredytBB.result != null}" 
+			<h:outputText value="#{txtKred.wynosi}: #{KredytBB.result} "
+				rendered="#{KredytBB.result != null}" 
 			/>
 		</div>
 		<h:form>
-			<h:commandButton value="#{txtMain.return}" action="index" />
+			<h:commandButton value="#{txtMain.return}" action="index" update="@all"/>
 		</h:form>
 	</p:panel>
 </h:body>

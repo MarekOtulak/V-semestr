@@ -17,9 +17,7 @@
 			<base-name>resources.txtKred</base-name>
 			<var>txtKred</var>
 		</resource-bundle>
-		<locale-config>
-			<default-locale>en</default-locale>
-		</locale-config>
+
 	</application>
 
 </faces-config>
