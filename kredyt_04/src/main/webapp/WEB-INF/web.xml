@@ -3,7 +3,7 @@
 	xmlns="https://jakarta.ee/xml/ns/jakartaee"
 	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd" 
 	id="WebApp_ID" version="5.0">
-	<display-name>kredyt_03</display-name>
+	<display-name>kredyt_04</display-name>
 	
 	<context-param>
 	 	<param-name>javax.faces.PROJECT_STAGE</param-name>
