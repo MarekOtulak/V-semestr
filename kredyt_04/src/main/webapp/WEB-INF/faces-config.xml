@@ -4,5 +4,22 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
     version="2.3">
+    <application>
+		<resource-bundle>
+			<base-name>resources.txtKredMain</base-name>
+			<var>txtMain</var>
+		</resource-bundle>
+		<resource-bundle>
+			<base-name>resources.txtKredErr</base-name>
+			<var>txtKredErr</var>
+		</resource-bundle>
+		<resource-bundle>
+			<base-name>resources.txtKred</base-name>
+			<var>txtKred</var>
+		</resource-bundle>
+		<locale-config>
+			<default-locale>en</default-locale>
+		</locale-config>
+	</application>
 
 </faces-config>

@@ -11,32 +11,40 @@
 		<p:panel header="Kalkulator kredytowy" style="margin: 1em auto;">
 			<p:messages id="msg" />
 			<h:form>
+	        	<p:commandButton value="#{txtMain.pl}" action="#{KredytBB.setLocale('pl')}" update="@all" />
+				<p:commandButton value="#{txtMain.en}" action="#{KredytBB.setLocale('en')}" update="@all"/>
+	        </h:form>
+			<h:form>
 				<h:panelGrid id="myGrid" columns="3" cellpadding="5" styleClass="cta bottom-space">
-					<p:outputLabel for="kwota" value="Kwota pożyczki:" />
-					<p:inputText id="kwota" value="#{kredytBB.kwota}" required="true" requiredMessage="Brak kwoty pożyczki"
-					converterMessage="Kwota kredytu musi być liczbą (użyj kropki zamiast przecinka)"
-					validatorMessage="Kwota pozyczki musi wynosić conajmniej 5000 PLN" class="textarea">
+					<p:outputLabel for="kwota" value="#{txtKred.kwota}:" />
+					<p:inputText id="kwota" value="#{kredytBB.kwota}" required="true" 
+					requiredMessage="#{txtKredErr.KredWrongKwota}"
+					converterMessage="#{txtKredErr.ParamKwotaIncorrect}"
+					validatorMessage="#{txtKredErr.MinKwotaRequired}" class="textarea">
 					<f:validateLongRange minimum="5000"/>
 					</p:inputText>
 					<p:message for="kwota" />
 					
-					<p:outputLabel for="ilelat" value="Na ile lat:" />
-					<p:inputText id="ilelat" value="#{kredytBB.ilelat}" required="true" requiredMessage="Nie podano ilości lat"
-					converterMessage="Długość kredytu musi być liczbą całkowitą" validatorMessage="Kredyt musi trwać przynajmniej rok">
+					<p:outputLabel for="ilelat" value="#{txtKred.ilelat}:" />
+					<p:inputText id="ilelat" value="#{kredytBB.ilelat}" required="true" 
+					requiredMessage="#{txtKredErr.KredWrongIlelat}"
+					converterMessage="#{txtKredErr.ParamIlelatIncorrect}" 
+					validatorMessage="#{txtKredErr.MinLatRequired}">
 					<f:validateLongRange minimum="1"/>
 					</p:inputText>
 					<p:message for="ilelat" />
 					
-					<p:outputLabel for="oprocentowanie" value="Oprocentowanie:" />
-					<p:inputText id="oprocentowanie" value="#{kredytBB.oprocentowanie}" required="true" requiredMessage="Nie podano oprocentowania"
-					converterMessage="Oprocentowanie kredytu musi być liczbą (użyj kropki zamiast przecinka)" 
-					validatorMessage="Oprocentowanie nie może być ujemne, lub przekraczać 100%">
+					<p:outputLabel for="oprocentowanie" value="#{txtKred.oprocentowanie}:" />
+					<p:inputText id="oprocentowanie" value="#{kredytBB.oprocentowanie}" required="true" 
+					requiredMessage="#{txtKredErr.KredWrongOpr}"
+					converterMessage="#{txtKredErr.ParamOprIncorrect}" 
+					validatorMessage="#{txtKredErr.MinOprRequired}">
 					<f:validateLongRange minimum="0" maximum="100"/>
 					</p:inputText>
 					<p:message for="oprocentowanie" />
 					
-					<p:commandButton value="Oblicz Miesięczną Ratę" action="#{kredytBB.calc()}" update="myGrid" />
-					<p:commandButton value="Oblicz Miesięczną Ratę (AJAX)" action="#{kredytBB.calc_AJAX()}" update="myGrid msg"/>
+					<p:commandButton value="#{txtKred.rata}" action="#{kredytBB.calc()}" update="myGrid" />
+					<p:commandButton value="#{txtKred.rata}" action="#{kredytBB.calc_AJAX()}" update="myGrid msg"/> <!-- Oblicz Miesięczną Ratę (AJAX) -->
 				</h:panelGrid>
 				<p:messages id="msg" redisplay="false"/>
 			</h:form>

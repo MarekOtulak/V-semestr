@@ -7,18 +7,18 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-	<title>Rata</title>
+	<title>#{txtMain.projectName} - #{txtMain.projectTopics}</title>
 </h:head>
 <h:body>
 	<p:panel>
 		<p:messages />
 		<div class="bottom-space">
-			<h:outputText value="wynik: #{kredytBB.result} "
+			<h:outputText value="#{txtKred.wynosi}: #{kredytBB.result} "
 				rendered="#{kredytBB.result != null}" 
 			/>
 		</div>
 		<h:form>
-			<h:commandButton value="Powrót" action="index" />
+			<h:commandButton value="#{txtMain.return}" action="index" />
 		</h:form>
 	</p:panel>
 </h:body>

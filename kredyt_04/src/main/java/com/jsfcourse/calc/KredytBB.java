@@ -1,14 +1,22 @@
 package com.jsfcourse.calc;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Locale;
+//import java.io.Serializable;
+import java.util.ResourceBundle;
+
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.annotation.ManagedProperty;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+//import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named
 @RequestScoped
-public class KredytBB {
+public class KredytBB /*implements Serializable*/ {
 	private Double kwota;
 	private Double ilelat;
 	private Double oprocentowanie;
@@ -16,6 +24,16 @@ public class KredytBB {
 	private Double rata;
 	private Double procent_100;
 	private Double result;
+
+	// Resource injected
+	@Inject
+	@ManagedProperty("#{txtKredErr}")
+	private ResourceBundle txtKredErr;
+
+	// Resource injected
+	@Inject
+	@ManagedProperty("#{txtKred}")
+	private ResourceBundle txtKred;
 
 	@Inject
 	FacesContext ctx;
@@ -65,11 +83,14 @@ public class KredytBB {
 			result = rata + rata * procent_100;
 			//result = number_format(result, 2);
 			//
-
-			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Operacja wykonana poprawnie", null));
+			// Zaokrąglanie wyniku do 2 miejsc po przecinku
+	        BigDecimal roundedResult = BigDecimal.valueOf(result).setScale(2, RoundingMode.HALF_UP);
+	        result = roundedResult.doubleValue();
+			
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, txtKredErr.getString("done"), null));
 			return true;
 		} catch (Exception e) {
-			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd podczas przetwarzania parametrów", null));
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, txtKredErr.getString("error"), null));
 			return false;
 		}
 	}
@@ -85,9 +106,13 @@ public class KredytBB {
 	// Put result in messages on AJAX call
 	public String calc_AJAX() {
 		if (doTheMath()) {
-			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Twoja rata kredytu wynosi: " + result, null));
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, txtKred.getString("wynosi") + ": " + result, null));
 		}
 		return null;
+	}
+	
+	public void setLocale(String language) {
+		FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(language));
 	}
 
 }

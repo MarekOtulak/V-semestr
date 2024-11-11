@@ -9,10 +9,11 @@
 <ui:composition template="/templates/main-template.xhtml">
 
 	<ui:define name="title">
-		Kalkulator kredytowy kredyt_04 - szablonowanie, elementy układu, formatowanie, zasoby
+		#{txtMain.projectName} - #{txtMain.projectTopics}
 	</ui:define>
 
 	<ui:define name="pageContent">
+		<div class="bottom-space">${txtMain.sampleText}</div>
 		<ui:insert name="pageContent">Kalkulator</ui:insert>
 	</ui:define>
 	
