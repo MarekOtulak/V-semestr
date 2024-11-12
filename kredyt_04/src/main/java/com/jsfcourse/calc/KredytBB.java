@@ -33,7 +33,7 @@ public class KredytBB implements Serializable {
 	@Inject
 	@ManagedProperty("#{txtKredErr}")
 	private ResourceBundle txtKredErr;
-
+    
 	// Resource injected
 	@Inject
 	@ManagedProperty("#{txtKred}")
@@ -50,6 +50,10 @@ public class KredytBB implements Serializable {
 	public void setLocale(String language) {
         this.locale = language;
         updateLocale();
+    }
+	
+	public String getLocale() {
+        return locale;
     }
 	
 	public void updateLocale() {
@@ -104,11 +108,16 @@ public class KredytBB implements Serializable {
 			// Zaokrąglanie wyniku do 2 miejsc po przecinku
 	        BigDecimal roundedResult = BigDecimal.valueOf(result).setScale(2, RoundingMode.HALF_UP);
 	        result = roundedResult.doubleValue();
+	        
+	        ResourceBundle bundle = ResourceBundle.getBundle("resources.txtKredErr", ctx.getViewRoot().getLocale());
+	        String successMessage = bundle.getString("done");
 			
-			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, txtKredErr.getString("done"), null));
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successMessage, null));
 			return true;
 		} catch (Exception e) {
-			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, txtKredErr.getString("error"), null));
+			ResourceBundle bundle = ResourceBundle.getBundle("resources.txtKredErr", ctx.getViewRoot().getLocale());
+			String FailMessage = bundle.getString("error");
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, FailMessage, null));
 			return false;
 		}
 	}
@@ -125,7 +134,9 @@ public class KredytBB implements Serializable {
 	// Put result in messages on AJAX call
 	public String calc_AJAX() {
 		if (doTheMath()) {
-			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, txtKred.getString("wynosi") + ": " + result, null));
+			ResourceBundle bundle = ResourceBundle.getBundle("resources.txtKred", ctx.getViewRoot().getLocale());
+	        String resultMessage = bundle.getString("wynosi");
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, resultMessage + ": " + result, null));
 		}
 		return null;
 	}
