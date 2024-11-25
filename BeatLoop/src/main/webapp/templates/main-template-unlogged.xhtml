@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+>
+<!-- <f:view locale="#{facesContext.externalContext.requestLocale}"> -->
+
+<h:head>
+	<f:metadata>
+        <f:event type="preRenderView" listener="#{KredytBB.updateLocale}"/>
+    </f:metadata>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title><ui:insert name="title">Kalkulator Kredytowy</ui:insert></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    
+    <!-- Ładowanie CSS -->
+    <h:outputStylesheet name="assets/css/main.css" library="template" />
+   <h:outputStylesheet name="assets/css/noscript.css" library="template" /> <!-- removed: rendered="false" -->
+   <link type="image/x-icon" rel="shortcut icon"
+		href="#{resource['template:assets/css/images/java.ico']}" />
+</h:head>
+
+<h:body class="is-preload landing">
+    <div id="page-wrapper">
+    	<div id="one" class="wrapper style1">
+	        <!-- Header -->
+	        <ui:insert name="header">
+	            <div id="header">
+	                <nav id="nav">
+	                    <ul>
+	                        <li><a href="index.xhtml">Home</a></li>
+	                    </ul>
+	                </nav>
+	        	</div>
+	        </ui:insert>
+			
+			<div class="container">
+				<!-- Title -->
+				
+		            <div>
+		            	<header class="major">
+							<h2>
+								<ui:insert name="title">...</ui:insert>
+							</h2>
+						</header>
+		            </div>
+		
+		        <!-- Calculator -->
+		            <div class="row gtr-uniform gtr-50">
+		            	<ui:insert name="pageContent">Tu powinien wyświetlać sie kalkulator</ui:insert>
+		            </div>
+		        
+			</div>
+		        <!-- Footer -->
+			<ui:insert name="footer">
+				<div id="footer">
+					<ul class="copyright">
+						<li>&copy; Marek Otulak. All rights reserved. 2024</li>
+						 <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+					
+					<h:form>
+			        	<h:commandButton value="#{txtMain.pl}" action="#{KredytBB.setLocale('pl')}" update="@all" />
+						<h:commandButton value="#{txtMain.en}" action="#{KredytBB.setLocale('en')}" update="@all"/>
+			        </h:form>
+				</div>
+				
+			</ui:insert>
+        </div>
+    </div>
+
+    <!-- Scripts 
+    <h:outputScript name="js/jquery.min.js" library="template" />
+    <h:outputScript name="js/jquery.scrolly.min.js" library="template" />
+    <h:outputScript name="js/jquery.dropotron.min.js" library="template" />
+    <h:outputScript name="js/jquery.scrollex.min.js" library="template" />
+    <h:outputScript name="js/browser.min.js" library="template" />
+    <h:outputScript name="js/breakpoints.min.js" library="template" />
+    <h:outputScript name="js/util.js" library="template" />
+    <h:outputScript name="js/main.js" library="template" />-->
+</h:body>
+
+<!--  </f:view>-->
+</html>
