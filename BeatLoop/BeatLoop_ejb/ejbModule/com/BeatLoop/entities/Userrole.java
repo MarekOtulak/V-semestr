@@ -129,7 +129,7 @@ public class Userrole implements Serializable {
 
     @Override
     public String toString() {
-        return "beatloop.entities.Userrole[ userroleid=" + userroleid + " ]";
+        return "com.BeatLoop.entities.Userrole[ userroleid=" + userroleid + " ]";
     }
     
 }

@@ -160,7 +160,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "beatloop.entities.Role[ roleId=" + roleId + " ]";
+        return "com.BeatLoop.entities.Role[ roleId=" + roleId + " ]";
     }
     
 }

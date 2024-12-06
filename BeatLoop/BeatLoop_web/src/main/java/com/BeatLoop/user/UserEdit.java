@@ -11,9 +11,9 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpSession;
+import com.BeatLoop.entities.User;
 
 import com.BeatLoop.dao.UserDAO;
-import com.BeatLoop.entities.User;
 
 @Named
 @ViewScoped

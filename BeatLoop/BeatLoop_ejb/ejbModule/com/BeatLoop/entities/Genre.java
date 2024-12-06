@@ -43,7 +43,7 @@ public class Genre implements Serializable {
     @Size(min = 1, max = 65)
     @Column(name = "genre_name")
     private String genreName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "genre")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "genreGenreId")
     private Collection<Song> songCollection;
 
     public Genre() {
@@ -104,7 +104,7 @@ public class Genre implements Serializable {
 
     @Override
     public String toString() {
-        return "beatloop.entities.Genre[ genreId=" + genreId + " ]";
+        return "com.BeatLoop.entities.Genre[ genreId=" + genreId + " ]";
     }
     
 }

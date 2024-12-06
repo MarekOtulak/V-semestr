@@ -12,9 +12,9 @@ import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.context.Flash;
 import jakarta.servlet.http.HttpSession;
+import com.BeatLoop.entities.User;
 
 import com.BeatLoop.dao.UserDAO;
-import com.BeatLoop.entities.User;
 
 @Named
 @RequestScoped

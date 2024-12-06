@@ -195,7 +195,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "beatloop.entities.User[ userId=" + userId + " ]";
+        return "com.BeatLoop.entities.User[ userId=" + userId + " ]";
     }
     
 }

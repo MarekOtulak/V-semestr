@@ -6,8 +6,10 @@ package com.BeatLoop.entities;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -30,19 +32,21 @@ import java.util.Date;
 @Table(name = "song")
 @NamedQueries({
     @NamedQuery(name = "Song.findAll", query = "SELECT s FROM Song s"),
-    @NamedQuery(name = "Song.findBySongId", query = "SELECT s FROM Song s WHERE s.songPK.songId = :songId"),
+    @NamedQuery(name = "Song.findBySongId", query = "SELECT s FROM Song s WHERE s.songId = :songId"),
     @NamedQuery(name = "Song.findByTitle", query = "SELECT s FROM Song s WHERE s.title = :title"),
     @NamedQuery(name = "Song.findByReleaseYear", query = "SELECT s FROM Song s WHERE s.releaseYear = :releaseYear"),
     @NamedQuery(name = "Song.findByFilePath", query = "SELECT s FROM Song s WHERE s.filePath = :filePath"),
     @NamedQuery(name = "Song.findByIsApproved", query = "SELECT s FROM Song s WHERE s.isApproved = :isApproved"),
     @NamedQuery(name = "Song.findByCreatedAt", query = "SELECT s FROM Song s WHERE s.createdAt = :createdAt"),
-    @NamedQuery(name = "Song.findByUpdatedAt", query = "SELECT s FROM Song s WHERE s.updatedAt = :updatedAt"),
-    @NamedQuery(name = "Song.findByGenregenreid", query = "SELECT s FROM Song s WHERE s.songPK.genregenreid = :genregenreid")})
+    @NamedQuery(name = "Song.findByUpdatedAt", query = "SELECT s FROM Song s WHERE s.updatedAt = :updatedAt")})
 public class Song implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected SongPK songPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "song_id")
+    private Integer songId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -70,47 +74,34 @@ public class Song implements Serializable {
     private Date updatedAt;
     @ManyToMany(mappedBy = "songCollection")
     private Collection<Album> albumCollection;
-    @JoinColumn(name = "Genre_genre_id", referencedColumnName = "genre_id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Genre genre;
-    /*
-    @JoinColumns({
-    	@JoinColumn(name = "song_id", referencedColumnName = "song_id", insertable = false, updatable = false),
-        @JoinColumn(name = "Genre_genre_id", referencedColumnName = "genre_id", insertable = false, updatable = false)
-    })
-    @ManyToOne(optional = false)
-    private Genre genre;*/
-
-    
     @JoinColumn(name = "updated_by", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User updatedBy;
+    @JoinColumn(name = "genre_genre_id", referencedColumnName = "genre_id")
+    @ManyToOne(optional = false)
+    private Genre genreGenreId;
 
     public Song() {
     }
 
-    public Song(SongPK songPK) {
-        this.songPK = songPK;
+    public Song(Integer songId) {
+        this.songId = songId;
     }
 
-    public Song(SongPK songPK, String title, Date releaseYear, String filePath, Date createdAt) {
-        this.songPK = songPK;
+    public Song(Integer songId, String title, Date releaseYear, String filePath, Date createdAt) {
+        this.songId = songId;
         this.title = title;
         this.releaseYear = releaseYear;
         this.filePath = filePath;
         this.createdAt = createdAt;
     }
 
-    public Song(int songId, int genregenreid) {
-        this.songPK = new SongPK(songId, genregenreid);
+    public Integer getSongId() {
+        return songId;
     }
 
-    public SongPK getSongPK() {
-        return songPK;
-    }
-
-    public void setSongPK(SongPK songPK) {
-        this.songPK = songPK;
+    public void setSongId(Integer songId) {
+        this.songId = songId;
     }
 
     public String getTitle() {
@@ -169,14 +160,6 @@ public class Song implements Serializable {
         this.albumCollection = albumCollection;
     }
 
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-
     public User getUpdatedBy() {
         return updatedBy;
     }
@@ -185,10 +168,18 @@ public class Song implements Serializable {
         this.updatedBy = updatedBy;
     }
 
+    public Genre getGenreGenreId() {
+        return genreGenreId;
+    }
+
+    public void setGenreGenreId(Genre genreGenreId) {
+        this.genreGenreId = genreGenreId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (songPK != null ? songPK.hashCode() : 0);
+        hash += (songId != null ? songId.hashCode() : 0);
         return hash;
     }
 
@@ -199,7 +190,7 @@ public class Song implements Serializable {
             return false;
         }
         Song other = (Song) object;
-        if ((this.songPK == null && other.songPK != null) || (this.songPK != null && !this.songPK.equals(other.songPK))) {
+        if ((this.songId == null && other.songId != null) || (this.songId != null && !this.songId.equals(other.songId))) {
             return false;
         }
         return true;
@@ -207,7 +198,7 @@ public class Song implements Serializable {
 
     @Override
     public String toString() {
-        return "beatloop.entities.Song[ songPK=" + songPK + " ]";
+        return "com.BeatLoop.entities.Song[ songId=" + songId + " ]";
     }
     
 }

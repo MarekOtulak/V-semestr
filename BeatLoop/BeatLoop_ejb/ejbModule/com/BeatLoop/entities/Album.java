@@ -126,7 +126,7 @@ public class Album implements Serializable {
 
     @Override
     public String toString() {
-        return "beatloop.entities.Album[ albumId=" + albumId + " ]";
+        return "com.BeatLoop.entities.Album[ albumId=" + albumId + " ]";
     }
     
 }
