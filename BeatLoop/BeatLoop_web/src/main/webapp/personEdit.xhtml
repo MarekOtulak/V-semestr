@@ -19,11 +19,11 @@
 
 	<p:panel toggleable="true" header="Edycja rekordu">
 
-		<h:form rendered="#{userEdit.user != null}">
+		<h:form rendered="#{UserEdit.user != null}">
 			<h:panelGrid columns="3" cellpadding="5">
 
 				<h:outputLabel for="p-username" value="Nazwa uzytkownika:" />
-				<p:inputText id="p-username" value="#{userEdit.user.username}"
+				<p:inputText id="p-username" value="#{UserEdit.user.username}"
 					required="true" requiredMessage="Podaj imię"
 					validatorMessage="co najwyżej 40 znaków">
 					<f:validateLength maximum="40" />
@@ -31,7 +31,7 @@
 				<p:message for="p-username" display="icon"/>
 
 				<h:outputLabel for="p-pass" value="hasło:" />
-				<p:inputText id="p-pass" value="#{userEdit.user.password}"
+				<p:inputText id="p-pass" value="#{UserEdit.user.password}"
 					required="true" requiredMessage="podaj hasło"
 					validatorMessage="co najwyżej 40 znaków">
 					<f:validateLength maximum="40" />
@@ -39,7 +39,7 @@
 				<p:message for="p-pass" display="icon"/>
 
 				<h:outputLabel for="p-email" value="adres email:" />
-				<p:inputText id="p-email" value="#{userEdit.user.email}"
+				<p:inputText id="p-email" value="#{UserEdit.user.email}"
 					required="true" requiredMessage="podaj adres email"
 					converterMessage="niepoprawny format adresu email (np. marektakowski@gmail.com)">
 					<!--  <f:convertDateTime pattern="dd-MM-yyyy"/>    dodaj walidację adresu email-->
@@ -49,7 +49,7 @@
 
 			<p:messages id="msgs" />
 
-			<p:commandButton value="Zapisz" action="#{userEdit.saveData()}"
+			<p:commandButton value="Zapisz" action="#{UserEdit.saveData()}"
 				style="margin-right: 1em;" update="@form" />
 
 			<p:button value="Anuluj" outcome="userList" />

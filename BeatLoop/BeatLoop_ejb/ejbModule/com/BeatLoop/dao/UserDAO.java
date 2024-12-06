@@ -78,7 +78,7 @@ public class UserDAO {
 
 		// 3. Set configured parameters
 		if (username != null) {
-			query.setParameter("surname", username+"%");
+			query.setParameter("username", username+"%");
 		}
 
 		// ... other parameters ... 

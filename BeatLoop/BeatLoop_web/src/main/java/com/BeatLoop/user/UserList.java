@@ -22,7 +22,7 @@ public class UserList {
 	private static final String PAGE_PERSON_EDIT = "personEdit?faces-redirect=true";
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 
-	private String surname;
+	private String username;
 		
 	@Inject
 	ExternalContext extcontext;
@@ -31,18 +31,18 @@ public class UserList {
 	Flash flash;
 	
 	@EJB
-	UserDAO personDAO;
+	UserDAO userDAO;
 		
-	public String getSurname() {
-		return surname;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public List<User> getFullList(){
-		return personDAO.getFullList();
+		return userDAO.getFullList();
 	}
 
 	public List<User> getList(){
@@ -51,12 +51,12 @@ public class UserList {
 		//1. Prepare search params
 		Map<String,Object> searchParams = new HashMap<String, Object>();
 		
-		if (surname != null && surname.length() > 0){
-			searchParams.put("surname", surname);
+		if (username != null && username.length() > 0){
+			searchParams.put("username", username);
 		}
 		
 		//2. Get list
-		list = personDAO.getList(searchParams);
+		list = userDAO.getList(searchParams);
 		
 		return list;
 	}
@@ -86,7 +86,7 @@ public class UserList {
 	}
 
 	public String deleteUser(User user){
-		personDAO.remove(user);
+		userDAO.remove(user);
 		return PAGE_STAY_AT_THE_SAME;
 	}
 }
