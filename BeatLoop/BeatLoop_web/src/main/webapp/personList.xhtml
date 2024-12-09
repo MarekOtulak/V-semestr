@@ -17,7 +17,7 @@
 		<h:form>
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="nazwa uzytkownika:" />
-				<p:inputText value="#{UserList.username}" />
+				<p:inputText value="#{userList.username}" />
 				<p:commandButton value="Szukaj" update="form-table" />
 			</h:panelGrid>
 		</h:form>
@@ -28,9 +28,9 @@
 	<h:form id="form-table" style="margin-bottom:1em;">
 
 		<p:commandButton value="Dodaj nową osobę"
-			action="#{UserList.newUser()}" style="margin-bottom:1em;" />
+			action="#{userList.newUser()}" style="margin-bottom:1em;" />
 
-		<p:dataTable value="#{UserList.list}" var="p">
+		<p:dataTable value="#{userList.list}" var="u">
 
 			<p:column priority="5">
 				<f:facet name="header">
@@ -61,10 +61,10 @@
 				</f:facet>
 
 				<p:commandButton value="Edytuj"
-					action="#{UserList.editUser(u)}" />
+					action="#{userList.editUser(u)}" />
 
 				<p:commandButton value="Usuń"
-					action="#{UserList.deleteUser(u)}" update="@form" />
+					action="#{userList.deleteUser(u)}" update="@form" />
 			</p:column>
 
 		</p:dataTable>

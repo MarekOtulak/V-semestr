@@ -20,7 +20,7 @@ import com.BeatLoop.dao.UserDAO;
 public class UserEdit implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private static final String PAGE_PERSON_LIST = "userList?faces-redirect=true";
+	private static final String PAGE_PERSON_LIST = "personList?faces-redirect=true";
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 
 	private User user = new User();
@@ -35,7 +35,7 @@ public class UserEdit implements Serializable {
 	@Inject
 	Flash flash;
 
-	public User getPerson() {
+	public User getUser() {
 		return user;
 	}
 
