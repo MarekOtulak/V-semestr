@@ -2,6 +2,7 @@ package com.BeatLoop.user;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 
 import jakarta.ejb.EJB;
 import jakarta.faces.application.FacesMessage;
@@ -69,10 +70,13 @@ public class UserEdit implements Serializable {
 
 		try {
 			if (user.getUserId() == null) {
-				// new record
+				// Nowy użytkownik - ustawiamy createdAt i updatedAt
+	            user.setCreatedAt(new Date());  // Ustawienie daty utworzenia
+	            user.setUpdatedAt(new Date());  // Ustawienie daty ostatniej aktualizacji
 				userDAO.create(user);
 			} else {
-				// existing record
+				// Istniejący użytkownik - tylko aktualizujemy updatedAt
+	            user.setUpdatedAt(new Date());  // Aktualizacja daty ostatniej zmiany
 				userDAO.merge(user);
 			}
 		} catch (Exception e) {

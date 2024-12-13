@@ -16,10 +16,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
@@ -54,14 +57,18 @@ public class User implements Serializable {
     private String username;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
+    @Size(min = 8, max = 255)  // Minimalna długość hasła: 8 znaków
     @Column(name = "password")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$", 
+             message = "Hasło musi zawierać co najmniej jedną małą literę, jedną wielką literę, jedną cyfrę, jeden znak specjalny oraz mieć co najmniej 8 znaków.")
     private String password;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "email")
+    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", 
+             message = "Niepoprawny format adresu email. Adres musi zawierać '@', nie może zawierać spacji oraz tylko jedną kropkę w domenie.")
     private String email;
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -197,5 +204,19 @@ public class User implements Serializable {
     public String toString() {
         return "com.BeatLoop.entities.User[ userId=" + userId + " ]";
     }
+    
+    @PrePersist
+    public void prePersist() {
+        if (this.createdAt == null) {
+            this.createdAt = new Date();
+        }
+        this.updatedAt = this.createdAt; // Set the same time initially for createdAt and updatedAt
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = new Date(); // Update the updatedAt date every time the entity is updated
+    }
+    
     
 }
