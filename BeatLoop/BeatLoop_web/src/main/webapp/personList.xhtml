@@ -8,7 +8,7 @@
 
 <h:head>
 	<meta charset="utf-8" />
-	<title>BeatLoop, bazy danych (mapowanie obiektowo-relacyjne)</title>
+	<title>BeatLoop</title>
 </h:head>
 <h:body style="background-color: #eee; margin: 0.5em;">
 
@@ -29,6 +29,9 @@
 
 		<p:commandButton value="Dodaj nową osobę"
 			action="#{userList.newUser()}" style="margin-bottom:1em;" />
+			
+		<p:button value="Powrót do strony głównej"
+			outcome="index.xhtml" style="margin-bottom:1em;" />
 
 		<p:dataTable value="#{userList.list}" var="u">
 
@@ -51,7 +54,7 @@
 					<h:outputText value="email" />
 				</f:facet>
 				<h:outputText value="#{u.email}">
-					<!--  <f:convertDateTime pattern="dd-MM-yyyy" />  dodać walidację email-->
+					<!--  <f:convertDateTime pattern="dd-MM-yyyy" />dodać walidację email-->
 				</h:outputText>
 			</p:column>
 
