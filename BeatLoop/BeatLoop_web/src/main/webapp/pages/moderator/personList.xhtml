@@ -27,12 +27,9 @@
 
 	<h:form id="form-table" style="margin-bottom:1em;">
 
-		<p:commandButton value="Dodaj nową osobę"
-			action="#{userList.newUser()}" style="margin-bottom:1em;" />
-			
-		<p:button value="Powrót do strony głównej"
-			outcome="index.xhtml" style="margin-bottom:1em;" />
-
+		<p:commandButton value="Dodaj nową osobę" action="#{userList.newUser()}" style="margin-bottom:1em;" />
+		<p:commandButton value="Powrót do strony głównej" action="/pages/main-template-logged.xhtml?faces-redirect=true" style="margin-bottom:1em;" />
+		
 		<p:dataTable value="#{userList.list}" var="u">
 
 			<p:column priority="5">

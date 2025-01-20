@@ -89,4 +89,5 @@ public class UserList {
 		userDAO.remove(user);
 		return PAGE_STAY_AT_THE_SAME;
 	}
+	
 }

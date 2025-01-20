@@ -1,5 +1,6 @@
 package com.BeatLoop.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +8,11 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
+
+import com.BeatLoop.entities.Role;
 import com.BeatLoop.entities.User;
+import com.BeatLoop.entities.Userrole;
 
 //DAO - Data Access Object for Person entity
 //Designed to serve as an interface between higher layers of application and data.
@@ -50,7 +55,56 @@ public class UserDAO {
 
 		return list;
 	}
+	///////////////////////////////////////////////////////
+	public User getUserFromDatabase(String login, String pass) {
+	    try {
+	        // Tworzenie zapytania do bazy danych, które wyszukuje użytkownika po loginie
+	        TypedQuery<User> query = em.createQuery(
+	            "SELECT u FROM User u WHERE u.username = :username", User.class);
+	        query.setParameter("username", login);
 
+	        User user = query.getSingleResult();
+	        
+	        // Sprawdzenie, czy hasło użytkownika odpowiada temu podanemu
+	        if (user != null && user.getPassword().equals(pass)) { // Hasło w bazie jest jawne, zaleca się użycie haszowania
+	            return user;
+	        }
+	    } catch (Exception e) {
+	        // Obsługuje wyjątek, jeśli użytkownik nie zostanie znaleziony
+	        return null;
+	    }
+	    return null;
+	}
+
+	public List<String> getUserRolesFromDatabase(User user) {
+	    List<String> roles = new ArrayList<>();
+	    try {
+	        // Tworzenie zapytania do bazy danych w celu pobrania ról użytkownika za pomocą tabeli pośredniczącej
+	        TypedQuery<Userrole> query = em.createQuery(
+	            "SELECT ur FROM Userrole ur WHERE ur.useruserid = :user", Userrole.class);
+	        query.setParameter("user", user);
+
+	        List<Userrole> userRoles = query.getResultList();
+
+	        // Przekształcenie obiektów Userrole do listy nazw ról
+	        for (Userrole userRole : userRoles) {
+	            Role role = userRole.getRoleroleid();
+	            if (role != null) {
+	                roles.add(role.getRoleName());
+	            }
+	        }
+
+	    } catch (Exception e) {
+	        // Obsługa błędów podczas wykonywania zapytania
+	        e.printStackTrace();
+	    }
+
+	    return roles;
+	}
+
+
+
+	/////////////////////////////////////////////////////
 	public List<User> getList(Map<String, Object> searchParams) {
 		List<User> list = null;
 

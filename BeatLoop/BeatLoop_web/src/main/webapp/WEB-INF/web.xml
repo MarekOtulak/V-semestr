@@ -5,19 +5,71 @@
     <param-name>jakarta.faces.PROJECT_STAGE</param-name>
     <param-value>Development</param-value>
   </context-param>
+
+  <filter>
+    <filter-name>SecurityFilter</filter-name>
+    <filter-class>jakarta.faces.simplesecurity.SecurityFilter</filter-class>
+    
+    <init-param>
+      <param-name>noPermitionPage</param-name>
+      <param-value>/pages/login.xhtml</param-value>
+    </init-param>
+    
+    <init-param>
+    	<param-name>permissions</param-name>
+    	<param-value>
+/jakarta.faces.resource : PUBLIC;
+/public : PUBLIC;
+/pages : admin;
+/pages/main-template-logged : user;
+/pages/admin : admin;
+/pages/moderator : admin, moderator;
+		</param-value>
+    </init-param>
+    
+   <init-param>
+	   <param-name>invalidateOnRemoteAddressChange</param-name>
+	   <param-value>true</param-value>
+    </init-param>
+    <init-param>
+	    <param-name>invalidateOnRemoteHostChange</param-name>
+	    <param-value>false</param-value>
+    </init-param>
+	<init-param>
+	  	<param-name>invalidateOnRemotePortChange</param-name>
+		<param-value>false</param-value>
+	</init-param>
+    
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>SecurityFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  
   <servlet>
-    <servlet-name>BeginCtrl</servlet-name>
-    <servlet-class>com.BeatLoop.ctrl.BeginCtrl</servlet-class>
+    <servlet-name>FacesServlet</servlet-name>
+    <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>BeginCtrl</servlet-name>
-    <url-pattern>/BeginCtrl</url-pattern>
+    <servlet-name>FacesServlet</servlet-name>
+    <url-pattern>*.xhtml</url-pattern>
   </servlet-mapping>
-  <welcome-file-list>
-    <welcome-file>index.xhtml</welcome-file>
-  </welcome-file-list>
+
+  <session-config>
+    <session-timeout>5</session-timeout>
+    <tracking-mode>COOKIE</tracking-mode>
+  </session-config>
   <mime-mapping>
     <extension>ico</extension>
     <mime-type>image/x-icon</mime-type>
-  </mime-mapping>
+  </mime-mapping>  
+  <welcome-file-list>
+    <welcome-file>pages/main-template-logged.xhtml</welcome-file>
+  </welcome-file-list>
+  <error-page>
+    <exception-type>jakarta.faces.application.ViewExpiredException</exception-type>
+    <location>/pages/viewExpired.xhtml</location>
+  </error-page>
 </web-app>
