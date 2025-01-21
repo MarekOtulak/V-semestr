@@ -37,7 +37,9 @@
 						<li><a href="{$conf->action_url}logged">Home</a></li>
 						<li>
 							<div class="pure-form pure-form-stacked">
-								<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" />
+							<h:form style="display:inline;">
+								<h:commandButton value="Wyloguj" action="#{loginBB.doLogout()}" update="msg"/>
+							</h:form>
 							</div>
 						</li>
 					</ul>

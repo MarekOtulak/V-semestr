@@ -21,7 +21,7 @@
 /jakarta.faces.resource : PUBLIC;
 /public : PUBLIC;
 /pages : admin;
-/pages/main-template-logged : user;
+/pages/main-template-logged.xhtml : user, moderator, admin;
 /pages/admin : admin;
 /pages/moderator : admin, moderator;
 		</param-value>

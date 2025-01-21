@@ -52,8 +52,7 @@ public class LoginBB {
 
 	    // 2. Jeśli login lub hasło są niepoprawne - pozostanie na tej samej stronie z informacją o błędzie
 	    if (user == null) {
-	        ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                "Niepoprawny login lub hasło", null));
+	        ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niepoprawny login lub hasło", null));
 	        return PAGE_STAY_AT_THE_SAME;
 	    }
 
@@ -79,8 +78,7 @@ public class LoginBB {
 
 	
 	public String doLogout(){
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-				.getExternalContext().getSession(true);
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		//Invalidate session
 		// - all objects within session will be destroyed
 		// - new session will be created (with new ID)
