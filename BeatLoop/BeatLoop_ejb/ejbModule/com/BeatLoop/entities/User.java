@@ -86,7 +86,7 @@ public class User implements Serializable {
     @JoinColumn(name = "updated_by", referencedColumnName = "user_id")
     @ManyToOne
     private User updatedBy;
-    
+
     public User() {
     }
 
