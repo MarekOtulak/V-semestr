@@ -101,17 +101,33 @@ public class UserDAO {
 
 	    return roles;
 	}
+/////////////
+	public void assignRoleToUser(Userrole userRole) {
+	    em.persist(userRole); // Zapisz encję Userrole do bazy
+	}
+
+	public List<Role> getAllRoles() {
+	    return em.createNamedQuery("Role.findAll", Role.class).getResultList();
+	}
+
+	public List<Role> getRolesForUser(User user) {
+	    // Wyszukaj role przypisane do użytkownika
+	    return em.createQuery("SELECT r FROM Role r JOIN r.userroleCollection ur WHERE ur.useruserid = :user", Role.class)
+	             .setParameter("user", user)
+	             .getResultList();
+	}
 
 
-
-	/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
 	public List<User> getList(Map<String, Object> searchParams) {
 		List<User> list = null;
 
 		// 1. Build query string with parameters
-		String select = "select u ";
+		String select = "select u, r.roleName "; // Zmieniamy SELECT, by wziąć również rolę
 		String from = "from User u ";
-		String where = "";
+		String join = "join u.userroleCollection ur "  // Łączenie z Userrole
+		             + "join ur.roleroleid r ";        // Łączenie z Role
+		String where = "";  // Tutaj możesz dodać dodatkowe warunki, jeśli chcesz
 		String orderby = "order by u.username asc, u.email";
 
 		// search for surname
@@ -128,7 +144,8 @@ public class UserDAO {
 		// ... other parameters ... 
 
 		// 2. Create query object
-		Query query = em.createQuery(select + from + where + orderby);
+		//Query query = em.createQuery(select + from + where + orderby);
+		Query query = em.createQuery(select + from + join + where + orderby);
 
 		// 3. Set configured parameters
 		if (username != null) {

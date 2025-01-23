@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -54,6 +55,11 @@ public class Userrole implements Serializable {
     @JoinColumn(name = "User_user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User useruserid;
+    
+    @PrePersist
+    protected void onAssign() {
+        assignedAt = new Date();
+    }
 
     public Userrole() {
     }

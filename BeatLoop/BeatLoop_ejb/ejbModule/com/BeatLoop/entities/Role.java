@@ -20,6 +20,7 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -65,9 +66,19 @@ public class Role implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleroleid")
-    private Collection<Userrole> userroleCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleroleid", orphanRemoval = true)
+    private Collection<Userrole> userroleCollection = new ArrayList<>();
+    
+    public void addUserrole(Userrole userrole) {
+        userroleCollection.add(userrole);
+        userrole.setRoleroleid(this);
+    }
 
+    public void removeUserrole(Userrole userrole) {
+        userroleCollection.remove(userrole);
+        userrole.setRoleroleid(null);
+    }
+    
     public Role() {
     }
 

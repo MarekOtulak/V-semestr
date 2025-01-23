@@ -25,6 +25,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -78,14 +79,14 @@ public class User implements Serializable {
     private Date updatedAt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "updatedBy")
     private Collection<Song> songCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "useruserid")
-    private Collection<Userrole> userroleCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "useruserid", orphanRemoval = true)
+    private Collection<Userrole> userroleCollection = new ArrayList<>();
     @OneToMany(mappedBy = "updatedBy")
     private Collection<User> userCollection;
     @JoinColumn(name = "updated_by", referencedColumnName = "user_id")
     @ManyToOne
     private User updatedBy;
-
+    
     public User() {
     }
 
@@ -218,5 +219,14 @@ public class User implements Serializable {
         this.updatedAt = new Date(); // Update the updatedAt date every time the entity is updated
     }
     
+    public void addUserrole(Userrole userrole) {
+        userroleCollection.add(userrole);
+        userrole.setUseruserid(this);
+    }
+
+    public void removeUserrole(Userrole userrole) {
+        userroleCollection.remove(userrole);
+        userrole.setUseruserid(null);
+    }
     
 }

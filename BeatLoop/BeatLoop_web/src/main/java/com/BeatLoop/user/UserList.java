@@ -6,12 +6,11 @@ import java.util.Map;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.persistence.EntityManager;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.ejb.EJB;
 import jakarta.faces.context.ExternalContext;
-import jakarta.faces.context.FacesContext;
 import jakarta.faces.context.Flash;
-import jakarta.servlet.http.HttpSession;
 import com.BeatLoop.entities.User;
 
 import com.BeatLoop.dao.UserDAO;
@@ -21,7 +20,9 @@ import com.BeatLoop.dao.UserDAO;
 public class UserList {
 	private static final String PAGE_PERSON_EDIT = "personEdit?faces-redirect=true";
 	private static final String PAGE_STAY_AT_THE_SAME = null;
-
+	
+	protected EntityManager em;
+	
 	private String username;
 		
 	@Inject
@@ -62,8 +63,8 @@ public class UserList {
 	}
 
 	public String newUser(){
+
 		User user = new User();
-		
 		//1. Pass object through session
 		//HttpSession session = (HttpSession) extcontext.getSession(true);
 		//session.setAttribute("person", person);
@@ -89,5 +90,6 @@ public class UserList {
 		userDAO.remove(user);
 		return PAGE_STAY_AT_THE_SAME;
 	}
+
 	
 }
