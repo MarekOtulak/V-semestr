@@ -91,5 +91,8 @@ public class UserList {
 		return PAGE_STAY_AT_THE_SAME;
 	}
 
+	public List<Object[]> getUsersWithRoles() {
+	    return userDAO.getUsersWithRoles();
+	}
 	
 }

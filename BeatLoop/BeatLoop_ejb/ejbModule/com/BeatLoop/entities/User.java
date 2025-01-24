@@ -16,8 +16,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -25,7 +23,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 
@@ -42,7 +40,8 @@ import java.util.Date;
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByCreatedAt", query = "SELECT u FROM User u WHERE u.createdAt = :createdAt"),
-    @NamedQuery(name = "User.findByUpdatedAt", query = "SELECT u FROM User u WHERE u.updatedAt = :updatedAt")})
+    @NamedQuery(name = "User.findByUpdatedAt", query = "SELECT u FROM User u WHERE u.updatedAt = :updatedAt"),
+    @NamedQuery(name = "User.findByRoleId", query = "SELECT u FROM User u WHERE u.roleId = :roleId")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,18 +57,16 @@ public class User implements Serializable {
     private String username;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 8, max = 255)  // Minimalna długość hasła: 8 znaków
+    @Size(min = 8, max = 255) // Minimalna długość hasła: 8 znaków
     @Column(name = "password")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$", 
-             message = "Hasło musi zawierać co najmniej jedną małą literę, jedną wielką literę, jedną cyfrę, jeden znak specjalny oraz mieć co najmniej 8 znaków.")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$", message = "Hasło musi zawierać co najmniej jedną małą literę, jedną wielką literę, jedną cyfrę, jeden znak specjalny oraz mieć co najmniej 8 znaków.")
     private String password;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "email")
-    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", 
-             message = "Niepoprawny format adresu email. Adres musi zawierać '@', nie może zawierać spacji oraz tylko jedną kropkę w domenie.")
+    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "Niepoprawny format adresu email. Adres musi zawierać '@', nie może zawierać spacji oraz tylko jedną kropkę w domenie.")
     private String email;
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -77,10 +74,13 @@ public class User implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+    @Column(name = "role_id")
+    private BigInteger roleId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "updatedBy")
     private Collection<Song> songCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "useruserid", orphanRemoval = true)
-    private Collection<Userrole> userroleCollection = new ArrayList<>();
+    @JoinColumn(name = "role_role_id", referencedColumnName = "role_id")
+    @ManyToOne(optional = false)
+    private Role roleRoleId;
     @OneToMany(mappedBy = "updatedBy")
     private Collection<User> userCollection;
     @JoinColumn(name = "updated_by", referencedColumnName = "user_id")
@@ -149,6 +149,14 @@ public class User implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public BigInteger getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(BigInteger roleId) {
+        this.roleId = roleId;
+    }
+
     public Collection<Song> getSongCollection() {
         return songCollection;
     }
@@ -157,12 +165,12 @@ public class User implements Serializable {
         this.songCollection = songCollection;
     }
 
-    public Collection<Userrole> getUserroleCollection() {
-        return userroleCollection;
+    public Role getRoleRoleId() {
+        return roleRoleId;
     }
 
-    public void setUserroleCollection(Collection<Userrole> userroleCollection) {
-        this.userroleCollection = userroleCollection;
+    public void setRoleRoleId(Role roleRoleId) {
+        this.roleRoleId = roleRoleId;
     }
 
     public Collection<User> getUserCollection() {
@@ -204,29 +212,6 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.BeatLoop.entities.User[ userId=" + userId + " ]";
-    }
-    
-    @PrePersist
-    public void prePersist() {
-        if (this.createdAt == null) {
-            this.createdAt = new Date();
-        }
-        this.updatedAt = this.createdAt; // Set the same time initially for createdAt and updatedAt
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = new Date(); // Update the updatedAt date every time the entity is updated
-    }
-    
-    public void addUserrole(Userrole userrole) {
-        userroleCollection.add(userrole);
-        userrole.setUseruserid(this);
-    }
-
-    public void removeUserrole(Userrole userrole) {
-        userroleCollection.remove(userrole);
-        userrole.setUseruserid(null);
     }
     
 }

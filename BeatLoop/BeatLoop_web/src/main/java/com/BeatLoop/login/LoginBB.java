@@ -1,6 +1,9 @@
 package com.BeatLoop.login;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
@@ -12,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import com.BeatLoop.dao.UserDAO;
+import com.BeatLoop.entities.Role;
 import com.BeatLoop.entities.User;
 
 
@@ -56,24 +60,51 @@ public class LoginBB {
 	        return PAGE_STAY_AT_THE_SAME;
 	    }
 
+	    
+	    System.out.println("Zalogowano użytkownika: " + user.getUsername());  // Logowanie udane
+	    
 	    // 3. Jeśli użytkownik zalogowany: pobranie ról użytkownika, zapisanie ich w RemoteClient i przechowanie w sesji
 	    RemoteClient<User> client = new RemoteClient<>(); // Utworzenie nowego RemoteClient
 	    client.setDetails(user);
 
-	    // Pobranie ról użytkownika z bazy danych
-	    List<String> roles = userDAO.getUserRolesFromDatabase(user);
+	    List<String> roles = new ArrayList<>();
+	    List<Role> userRoles = userDAO.getUserRolesFromDatabase(user);
 
-	    if (roles != null) { // Zapisanie nazw ról w RemoteClient
-	        for (String role: roles) {
-	        	client.getRoles().add(role);
+	    if (userRoles != null) {
+	        for (Role role : userRoles) {
+	            roles.add(role.getRoleName()); // Dodaj nazwę roli do listy
 	        }
+	    }
+
+	    // Zapisanie ról w RemoteClient
+	    client.getRoles().addAll(roles);
+
+	    // Przechowanie RemoteClient z informacjami o sesji
+	    HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
+	    client.store(request);
+
+	    // Logowanie sesji, aby upewnić się, że sesja została poprawnie ustawiona
+	    HttpSession session = request.getSession();
+	    System.out.println("Sesja: " + session.getId());  // Powinno pokazać nową sesję
+	    
+	    // Przejście do strony głównej po zalogowaniu
+	    return PAGE_MAIN;
+	    
+	    /*
+	    
+	    // Pobranie ról użytkownika z bazy danych
+	    List<Role> roleIds = userDAO.getUserRolesFromDatabase(user);
+
+	    if (roleIds != null) { // Zapisanie ról w RemoteClient
+	    	client.getRoles().addAll(roleIds.stream().map(String::valueOf).collect(Collectors.toList()));  // Przekształcamy Integer do String
 	    }
 
 	    // Przechowanie RemoteClient z informacjami o sesji (potrzebne dla SecurityFilter)
 	    HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
 	    client.store(request);
-
-	    return PAGE_MAIN;
+	    
+	    // Przejście do systemu
+	    return PAGE_MAIN;*/
 	}
 
 	

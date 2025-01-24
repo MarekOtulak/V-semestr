@@ -2,7 +2,6 @@ package com.BeatLoop.user;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import jakarta.ejb.EJB;
@@ -12,10 +11,11 @@ import jakarta.faces.context.Flash;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import com.BeatLoop.entities.Role;
 import com.BeatLoop.entities.User;
-import com.BeatLoop.entities.Userrole;
 import com.BeatLoop.dao.UserDAO;
 
 @Named
@@ -26,14 +26,12 @@ public class UserEdit implements Serializable {
 	private static final String PAGE_PERSON_LIST = "personList?faces-redirect=true";
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 
-	private User user = new User();
-	private User loaded = null;
-	
-	/////
+	private User user;
 	private List<Role> availableRoles; // Lista dostępnych ról
-    private List<Role> selectedRoles;  // Lista wybranych ról przez użytkownika
-    /////
+    private Role selectedRole;  // wybrana ról
     
+    @PersistenceContext
+    protected EntityManager em;
     
 	@EJB
 	UserDAO userDAO;
@@ -43,10 +41,6 @@ public class UserEdit implements Serializable {
 
 	@Inject
 	Flash flash;
-
-	public User getUser() {
-		return user;
-	}
 	
 	public List<Role> getAvailableRoles() {
         if (availableRoles == null) {
@@ -55,75 +49,51 @@ public class UserEdit implements Serializable {
         return availableRoles;
     }
 
-    public List<Role> getSelectedRoles() {
-        return selectedRoles;
+    public Role getSelectedRoles() {
+        return selectedRole;
     }
 
-    public void setSelectedRoles(List<Role> selectedRoles) {
-        this.selectedRoles = selectedRoles;
+    public void setSelectedRoles(Role selectedRole) {
+        this.selectedRole = selectedRole;
     }
 
-	public void onLoad() throws IOException {
-		// 1. load person passed through session
-		// HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-		// loaded = (Person) session.getAttribute("person");
+    public void onLoad() throws IOException {
+        user = (User) flash.get("user");
+        if (user != null) {
+            // Pobierz rolę użytkownika, jeśli jest przypisana
+            selectedRole = userDAO.getRoleForUser(user); // Zakładamy, że masz metodę zwracającą jedną rolę
+        } else {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne użycie systemu", null));
+            FacesContext.getCurrentInstance().responseComplete();
+            return; // Zatrzymanie dalszej egzekucji
+        }
+    }
 
-		// 2. load person passed through flash
-		loaded = (User) flash.get("user");
+	
+    public String saveRoles() {
+        if (user == null) {
+            return PAGE_STAY_AT_THE_SAME;
+        }
 
-		// cleaning: attribute received => delete it from session
-		if (loaded != null) {
-			user = loaded;
-			// session.removeAttribute("person");
-			
-			//// Jeśli użytkownik ma już przypisane role, wczytaj je
-			selectedRoles = userDAO.getRolesForUser(user); // Pobierz przypisane role
-			////
-		} else {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne użycie systemu", null));
-			// if (!context.isPostback()) { //possible redirect
-			// context.getExternalContext().redirect("personList.xhtml");
-			// context.responseComplete();
-			// }
-		}
-	}
-
-	public String saveData() {
-		
-		// no Person object passed
-		if (loaded == null) {
-			return PAGE_STAY_AT_THE_SAME;
-		}
-
-		try { // Zapisz dane użytkownika
-			if (user.getUserId() == null) {
-				// Nowy użytkownik - ustawiamy createdAt i updatedAt
-	            user.setCreatedAt(new Date());  // Ustawienie daty utworzenia
-	            user.setUpdatedAt(new Date());  // Ustawienie daty ostatniej aktualizacji
-				userDAO.create(user);
-			} else {
-				// Istniejący użytkownik - tylko aktualizujemy updatedAt
-	            user.setUpdatedAt(new Date());  // Aktualizacja daty ostatniej zmiany
-				userDAO.merge(user);
-			}
-			///////////////
-			// Zapisz role użytkownika
-            if (selectedRoles != null && !selectedRoles.isEmpty()) {
-                for (Role role : selectedRoles) {
-                    Userrole userRole = new Userrole();
-                    userRole.setUseruserid(user); // Ustaw użytkownika
-                    userRole.setRoleroleid(role); // Ustaw rolę
-                    userRole.setAssignedAt(new Date()); // Data przypisania roli
-                    userDAO.assignRoleToUser(userRole); // Przypisz rolę użytkownikowi
-                }
+        try {
+            // Sprawdzenie, czy rola została wybrana
+            if (selectedRole != null) {
+                // Przypisanie całego obiektu roli do użytkownika
+                user.setRoleRoleId(selectedRole); // Przypisanie obiektu Role do użytkownika
+                em.merge(user); // Zapisanie użytkownika w bazie danych
+            } else {
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie wybrano roli", null));
+                FacesContext.getCurrentInstance().responseComplete();
+                return PAGE_STAY_AT_THE_SAME;
             }
-            ////////////
-		} catch (Exception e) {
-			e.printStackTrace();
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "wystąpił błąd podczas zapisu", null));
-			return PAGE_STAY_AT_THE_SAME;
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd podczas zapisu roli", null));
+            FacesContext.getCurrentInstance().responseComplete();
+            return PAGE_STAY_AT_THE_SAME;
+        }
+        FacesContext.getCurrentInstance().responseComplete();
+        return PAGE_PERSON_LIST;
+    }
 
-		return PAGE_PERSON_LIST;
-	}
 }

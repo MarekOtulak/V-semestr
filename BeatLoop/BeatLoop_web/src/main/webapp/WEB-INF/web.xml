@@ -5,7 +5,7 @@
     <param-name>jakarta.faces.PROJECT_STAGE</param-name>
     <param-value>Development</param-value>
   </context-param>
-
+	
   <filter>
     <filter-name>SecurityFilter</filter-name>
     <filter-class>jakarta.faces.simplesecurity.SecurityFilter</filter-class>
@@ -46,7 +46,6 @@
     <filter-name>SecurityFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  
   
   <servlet>
     <servlet-name>FacesServlet</servlet-name>
