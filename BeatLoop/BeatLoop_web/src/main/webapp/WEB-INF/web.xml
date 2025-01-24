@@ -19,10 +19,11 @@
     	<param-name>permissions</param-name>
     	<param-value>
 /jakarta.faces.resource : PUBLIC;
+/pages/welcome.xhtml : PUBLIC;
 /public : PUBLIC;
 /pages : admin;
 /pages/main-template-logged.xhtml : user, mod, admin;
-/pages/admin : admin;
+/pages/register.xhtml : PUBLIC;
 /pages/moderator : admin, mod;
 		</param-value>
     </init-param>
@@ -65,7 +66,7 @@
     <mime-type>image/x-icon</mime-type>
   </mime-mapping>  
   <welcome-file-list>
-    <welcome-file>pages/main-template-logged.xhtml</welcome-file>
+    <welcome-file>pages/welcome.xhtml</welcome-file>
   </welcome-file-list>
   <error-page>
     <exception-type>jakarta.faces.application.ViewExpiredException</exception-type>

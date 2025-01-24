@@ -151,6 +151,18 @@ public class UserDAO {
             return null;
         }
     }
-
+    
+    public Role findByName(String name) {
+        try {
+            return em.createQuery("SELECT r FROM Role r WHERE r.name = :name", Role.class)
+                     .setParameter("name", name)
+                     .getSingleResult();
+        } catch (NoResultException e) {
+            return null; // Return null if no role is found
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; // Handle any other exceptions
+        }
+    }
 
 }

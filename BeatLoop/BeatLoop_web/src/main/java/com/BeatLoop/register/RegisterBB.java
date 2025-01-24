@@ -1,6 +1,6 @@
-/*package com.BeatLoop.register;
+package com.BeatLoop.register;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import jakarta.enterprise.context.RequestScoped;
@@ -11,24 +11,20 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
 import org.mindrot.jbcrypt.BCrypt;
-import com.jsfcourse.dao.RoleDAO;
-
 import com.BeatLoop.dao.UserDAO;
 import com.BeatLoop.entities.Role;
 import com.BeatLoop.entities.User;
 
-
 @Named
 @RequestScoped
-public class Register {
+public class RegisterBB {
 	private String username;
 	private String email;
 	private String password;
 	private String confirmPassword;
 
-	private static final String PAGE_MAIN = "/pages/main-template-logged?faces-redirect=true";
+	private static final String PAGE_MAIN = "/pages/welcome?faces-redirect=true";
 	private static final String PAGE_LOGIN = "/pages/login";
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 
@@ -66,38 +62,37 @@ public class Register {
 	    	FacesContext.getCurrentInstance().addMessage(null, message);
 	    	return null;
 	    }
-		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+		// Hash the password using BCrypt
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 		
-		User user = new User();
-
-		user.setUsername(username);
-		//user.setPassword(hashedPassword);
-		user.setEmail(email);
-		Date now = new Date();
-		user.setCreatedAt(now);
-		user.setUpdatedAt(now);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(hashedPassword); // Save the hashed password
+        user.setEmail(email);
+        Date now = new java.util.Date();  // Create a java.util.Date
+        user.setCreatedAt(new java.sql.Date(now.getTime())); // Convert it to java.sql.Date
+        user.setUpdatedAt(new java.sql.Date(now.getTime())); // Convert it to java.sql.Date
 		
-		Role role = getRoleByName("user");
-		if (role != null) {
-			role.setUserRoleId(role);
-		} else {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role not found", null);
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return null;
-		}
+        Role role = getRoleByName("user");
+        if (role != null) {
+            user.setRoleRoleId(role); // Set the role for the user
+        } else {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role not found", null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return null;
+        }
 		
-		try {
-			userDAO.create(user);
-			FacesMessage message = new FacesMessage("Registration succesfull");
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return PAGE_LOGIN;
-		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Registration failed", null);
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			e.printStackTrace();
-			return null;
-		}	
-	    return PAGE_LOGIN;
+        try {
+            userDAO.create(user); // Persist the user to the database
+            FacesMessage message = new FacesMessage("Registration successful");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return PAGE_LOGIN;
+        } catch (Exception e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Registration failed", null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            e.printStackTrace();
+            return null;
+        }
 	}
 	
 	private Role getRoleByName(String name) {
@@ -106,6 +101,5 @@ public class Register {
             throw new RuntimeException("Role not found: " + name);
         }
         return role;
-	}
+    }
 }
-*/
