@@ -30,33 +30,33 @@
 		<p:commandButton value="Dodaj nową osobę" action="#{userList.newUser()}" style="margin-bottom:1em;" />
 		<p:commandButton value="Powrót do strony głównej" action="/pages/main-template-logged.xhtml?faces-redirect=true" style="margin-bottom:1em;" />
 		
-		<p:dataTable value="#{userList.usersWithRoles}" var="u">
+		<p:dataTable value="#{userList.list}" var="u">
 	    <p:column priority="5">
 	        <f:facet name="header">
 	            <h:outputText value="nazwa uzytkownika" />
 	        </f:facet>
-	        <h:outputText value="#{u[0]}" />
+	        <h:outputText value="#{u.username}" />
 	    </p:column>
 	
 	    <p:column>
 	        <f:facet name="header">
 	            <h:outputText value="hasło" />
 	        </f:facet>
-	        <h:outputText value="#{u[0]}" />
+	        <h:outputText value="#{u.password}" />
 	    </p:column>
 	
 	    <p:column priority="4">
 	        <f:facet name="header">
 	            <h:outputText value="email" />
 	        </f:facet>
-	        <h:outputText value="#{u[0]}" />
+	        <h:outputText value="#{u.email}" />
 	    </p:column>
 	
 	    <p:column>
 	        <f:facet name="header">
 	            <h:outputText value="Rola" />
 	        </f:facet>
-	        <h:outputText value="#{u[1]}" />
+	        <h:outputText value="#{u.roleRoleId.roleName}" />
 	    </p:column>
 	
 	    <p:column>
@@ -65,10 +65,10 @@
 	        </f:facet>
 	
 	        <p:commandButton value="Edytuj"
-	            action="#{userList.editUser(u[0])}" />
+	            action="#{userList.editUser(u)}" />
 	
 	        <p:commandButton value="Usuń"
-	            action="#{userList.deleteUser(u[0])}" update="@form" />
+	            action="#{userList.deleteUserByName(u)}" update="@form" />
 	    </p:column>
 	</p:dataTable>
 

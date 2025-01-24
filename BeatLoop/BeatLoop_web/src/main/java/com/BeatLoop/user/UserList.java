@@ -85,14 +85,16 @@ public class UserList {
 		
 		return PAGE_PERSON_EDIT;
 	}
-
+/*
 	public String deleteUser(User user){
 		userDAO.remove(user);
 		return PAGE_STAY_AT_THE_SAME;
-	}
-
-	public List<Object[]> getUsersWithRoles() {
-	    return userDAO.getUsersWithRoles();
+	}*/
+	public void deleteUserByName(String username) {
+	    User user = userDAO.getUserByUsername(username); // Zakładając, że taka metoda istnieje w DAO
+	    if (user != null) {
+	        userDAO.remove(user);
+	    }
 	}
 	
 }
