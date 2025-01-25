@@ -38,20 +38,18 @@
 			<section id="one" class="spotlight style2 left">
 				<span class="image fit main"><img src="{$conf->app_url}/images/pic05.jpg" alt="" /></span>
 				<div class="content">
-				<h:form>
-					<h:panelGrid columns="2" cellpadding="5" styleClass="bottom-space">
-						<h:outputLabel for="login" value="login:" />
-						<h:inputText id="login" value="#{loginBB.login}"
-							required="true"	requiredMessage="podaj login"/>
-						<h:outputLabel for="pass" value="hasło:" />
-						<h:inputSecret id="pass" value="#{loginBB.pass}"
-						required="true"	requiredMessage="podaj hasło"/>
-					</h:panelGrid>
+				<h:form columns="2" cellpadding="5" styleClass="bottom-space">
+					<!-- Check if the session contains a registration message -->
+        			<h:outputText value="#{sessionScope.registrationMessage}" rendered="#{not empty sessionScope.registrationMessage}" styleClass="success-message" />
+
+					<h:outputLabel for="login" value="login:" />
+					<h:inputText id="login" value="#{loginBB.login}" required="true"	requiredMessage="podaj login"/>
+					
+					<h:outputLabel for="pass" value="hasło:" />
+					<h:inputSecret id="pass" value="#{loginBB.pass}" required="true"	requiredMessage="podaj hasło"/>
 				
 					<h:messages />
-				
 					<h:commandButton value="Zaloguj" action="#{loginBB.doLogin()}" update="msg" />
-		
 				</h:form>
 				</div>
 				<a href="#footer" class="goto-next scrolly">Next</a>

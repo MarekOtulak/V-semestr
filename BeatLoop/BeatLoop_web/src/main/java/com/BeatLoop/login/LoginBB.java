@@ -50,6 +50,9 @@ public class LoginBB {
 
 	public String doLogin() {
 	    FacesContext ctx = FacesContext.getCurrentInstance();
+	    
+	    // Usuń komunikat rejestracyjny z sesji (jeśli istnieje)
+	    ctx.getExternalContext().getSessionMap().remove("registrationMessage");
 
 	    // 1. Weryfikacja loginu i hasła - pobranie użytkownika z bazy danych
 	    User user = userDAO.getUserFromDatabase(login, pass);

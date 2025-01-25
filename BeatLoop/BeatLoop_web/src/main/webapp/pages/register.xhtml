@@ -38,16 +38,14 @@
 			<section id="one" class="spotlight style2 left">
 				<span class="image fit main"><img src="{$conf->app_url}/images/pic05.jpg" alt="" /></span>
 				<div class="content">
-					<h:panelGrid header="Rejestracja nowego użytkownika" toggleable="true">
-				        <h:form>
-				            <h:panelGrid columns="2" cellpadding="5" styleClass="bottom-space">
+				        <h:form columns="2" cellpadding="5" styleClass="bottom-space">
 						        <!-- Nazwa użytkownika -->
 						        <h:outputLabel for="username" value="Nazwa użytkownika:" />
-						        <h:inputText id="username" value="#{registerBB.username}" required="true" requiredMessage="Podaj nazwę użytkownika" />
+						        <h:inputText id="username" value="#{registerBB.user.username}" required="true" requiredMessage="Podaj nazwę użytkownika" />
 						
 						        <!-- Hasło -->
 						        <h:outputLabel for="password" value="Hasło:" />
-						        <h:inputSecret id="password" value="#{registerBB.password}" required="true" requiredMessage="Podaj hasło" />
+						        <h:inputSecret id="password" value="#{registerBB.user.password}" required="true" requiredMessage="Podaj hasło" />
 						
 						        <!-- Potwierdzenie hasła -->
 						        <h:outputLabel for="confirmPassword" value="Potwierdź hasło:" />
@@ -55,15 +53,13 @@
 						
 						        <!-- Email -->
 						        <h:outputLabel for="email" value="Adres email:" />
-						        <h:inputText id="email" value="#{registerBB.email}" required="true" requiredMessage="Podaj adres email" /> 
-						    </h:panelGrid>
+						        <h:inputText id="email" value="#{registerBB.user.email}" required="true" requiredMessage="Podaj adres email" /> 
 				
 				            <h:messages id="msgs" />
-				
-				            <h:commandButton value="Zarejestruj" action="#{registerBB.register}" update="msgs" />  <!-- @form -->
-				            <h:button value="Anuluj" outcome="login" />
+
+								<h:commandButton value="Zarejestruj" action="#{registerBB.register}" update="msgs" />  <!-- @form -->
+				            	<h:button value="Anuluj" outcome="login" />
 				        </h:form>
-				    </h:panelGrid>
 				</div>
 				<a href="#footer" class="goto-next scrolly">Next</a>
 			</section>
