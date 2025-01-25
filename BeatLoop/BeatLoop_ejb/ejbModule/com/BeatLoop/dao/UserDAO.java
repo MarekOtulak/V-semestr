@@ -128,7 +128,6 @@ public class UserDAO {
 	public List<User> getUsersWithRoles() {
 	    return em.createQuery("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roleRoleId", User.class).getResultList();
 	}
-
     
     public List<Role> getAllRoles() {
         try {
@@ -138,9 +137,6 @@ public class UserDAO {
             return new ArrayList<>();
         }
     }
-    
-    
-    
     //new
     public User getUserByUsername(String username) {
         try {
@@ -152,10 +148,10 @@ public class UserDAO {
         }
     }
     
-    public Role findByName(String name) {
+    public Role findByName(String roleName) {
         try {
-            return em.createQuery("SELECT r FROM Role r WHERE r.name = :name", Role.class)
-                     .setParameter("name", name)
+            return em.createQuery("SELECT r FROM Role r WHERE r.roleName = :roleName", Role.class)
+                     .setParameter("roleName", roleName)
                      .getSingleResult();
         } catch (NoResultException e) {
             return null; // Return null if no role is found
@@ -164,5 +160,4 @@ public class UserDAO {
             return null; // Handle any other exceptions
         }
     }
-
 }

@@ -28,7 +28,7 @@ public class UserEdit implements Serializable {
 
 	private User user;
 	private List<Role> availableRoles; // Lista dostępnych ról
-    private Role selectedRole;  // wybrana ról
+    private Role selectedRole;  // wybrana rola
     
     @PersistenceContext
     protected EntityManager em;
@@ -69,7 +69,6 @@ public class UserEdit implements Serializable {
         }
     }
 
-	
     public String saveRoles() {
         if (user == null) {
             return PAGE_STAY_AT_THE_SAME;

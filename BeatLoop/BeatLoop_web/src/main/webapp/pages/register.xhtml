@@ -51,16 +51,16 @@
 						
 						        <!-- Potwierdzenie hasła -->
 						        <h:outputLabel for="confirmPassword" value="Potwierdź hasło:" />
-						        <h:inputSecret id="confirmPassword" value="#{registerBB.confirmPassword}" required="true" requiredMessage="Potwierdź hasło" />
+						        <h:inputSecret id="confirmPassword" value="#{registerBB.confirmPassword}" required="true" requiredMessage="Potwierdź hasło" /> 
 						
 						        <!-- Email -->
 						        <h:outputLabel for="email" value="Adres email:" />
-						        <h:inputText id="email" value="#{registerBB.email}" required="true" requiredMessage="Podaj adres email" />
+						        <h:inputText id="email" value="#{registerBB.email}" required="true" requiredMessage="Podaj adres email" /> 
 						    </h:panelGrid>
 				
 				            <h:messages id="msgs" />
 				
-				            <h:commandButton value="Zarejestruj" action="#{registerBB.register}" update="msg" />  <!-- @form -->
+				            <h:commandButton value="Zarejestruj" action="#{registerBB.register}" update="msgs" />  <!-- @form -->
 				            <h:button value="Anuluj" outcome="login" />
 				        </h:form>
 				    </h:panelGrid>
