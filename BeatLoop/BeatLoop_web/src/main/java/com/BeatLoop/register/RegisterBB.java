@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
-//import org.mindrot.jbcrypt.BCrypt;
+import org.mindrot.jbcrypt.BCrypt;
 import com.BeatLoop.entities.Role;
 import com.BeatLoop.entities.User;
 import com.BeatLoop.dao.UserDAO;
@@ -82,6 +82,16 @@ public class RegisterBB {
             FacesContext.getCurrentInstance().addMessage(null, message);
             return PAGE_STAY_AT_THE_SAME;
         }
+    	
+    	// Walidacja hasła (np. długość, znaki specjalne)
+        if (!isValidPassword(this.getPassword())) {
+        	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hasło musi zawierać co najmniej jedną małą literę (bez polskich znaków), jedną wielką literę, jedną cyfrę, jeden znak specjalny oraz mieć co najmniej 8 znaków.", null));
+            return PAGE_STAY_AT_THE_SAME;
+        }
+    	
+    	// Hashowanie hasła przed zapisaniem
+        String hashedPassword = BCrypt.hashpw(this.getPassword(), BCrypt.gensalt());
+        user.setPassword(hashedPassword);
         
         // Set up user attributes (just in case they aren't set from the form)
         Date now = new java.util.Date();
@@ -107,5 +117,12 @@ public class RegisterBB {
 
     private Role getRoleByName(String roleName) {
         return userDAO.findByName(roleName); // Assuming this method returns the role from DB
+    }
+    
+    // Funkcja sprawdzająca, czy hasło spełnia wymagania
+    private boolean isValidPassword(String password) {
+        // Wyrażenie regularne do walidacji hasła
+        String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>])[a-zA-Z\\d!@#$%^&*(),.?\":{}|<>]{8,}$";
+        return password != null && password.matches(passwordRegex);
     }
 }

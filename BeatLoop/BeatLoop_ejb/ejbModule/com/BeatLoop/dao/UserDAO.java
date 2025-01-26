@@ -9,6 +9,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
 
 import com.BeatLoop.entities.Role;
 import com.BeatLoop.entities.User;
@@ -32,9 +33,15 @@ public class UserDAO {
 	public User merge(User user) {
 		return em.merge(user);
 	}
-
+	@Transactional
 	public void remove(User user) {
-		em.remove(em.merge(user));
+		if (user != null) {
+	        System.out.println("Usuwam użytkownika: " + user.getUsername());
+	        em.remove(em.merge(user));
+	        em.flush(); // Wymuszenie zapisu
+	    } else {
+	        System.out.println("Użytkownik do usunięcia jest null");
+	    }
 	}
 
 	public User find(Object id) {
@@ -90,11 +97,10 @@ public class UserDAO {
 		return list;
 	}
 
-	public User getUserFromDatabase(String login, String password) {
+	public User getUserFromDatabase(String login) {
 	    try {
-	        return em.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
+	        return em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
 	                 .setParameter("username", login)
-	                 .setParameter("password", password)
 	                 .getSingleResult();
 	    } catch (NoResultException e) {
 	        // Logowanie błędu, gdy brak wyniku
@@ -105,6 +111,17 @@ public class UserDAO {
 	        return null;
 	    }
 	}
+	
+    public User getUserByUsername(String username) {
+        try {
+            return em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                     .setParameter("username", username)
+                     .getSingleResult();
+        } catch (NoResultException e) {
+        	System.out.println("Użytkownik o nazwie " + username + " nie znaleziony.");
+            return null;
+        }
+    }
 	
 	public List<Role> getUserRolesFromDatabase(User user) {
 	    List<Role> roles = new ArrayList<>();
@@ -135,16 +152,6 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
-        }
-    }
-    //new
-    public User getUserByUsername(String username) {
-        try {
-            return em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
-                     .setParameter("username", username)
-                     .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
         }
     }
     

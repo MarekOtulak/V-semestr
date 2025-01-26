@@ -7,6 +7,7 @@ import java.util.Map;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.ejb.EJB;
 import jakarta.faces.context.ExternalContext;
@@ -90,11 +91,26 @@ public class UserList {
 		userDAO.remove(user);
 		return PAGE_STAY_AT_THE_SAME;
 	}*/
+	@Transactional
 	public void deleteUserByName(String username) {
-	    User user = userDAO.getUserByUsername(username); // Zakładając, że taka metoda istnieje w DAO
+		System.out.println("Metoda deleteUserByName wywołana dla użytkownika: " + username);
+		if (username == null || username.isEmpty()) {
+	        System.out.println("Podano pustą nazwę użytkownika!");
+	        return;
+	    }
+		System.out.println("Próba usunięcia użytkownika: " + username);
+	    User user = userDAO.getUserByUsername(username);
 	    if (user != null) {
-	        userDAO.remove(user);
+	        try {
+	        	System.out.println("Usuwanie użytkownika: " + user.getUsername());
+	            userDAO.remove(user);
+	            System.out.println("Użytkownik usunięty: " + username);
+	        } catch (Exception e) {
+	            System.out.println("Błąd podczas usuwania użytkownika: " + e.getMessage());
+	            e.printStackTrace();
+	        }
+	    } else {
+	        System.out.println("Użytkownik nie znaleziony: " + username);
 	    }
 	}
-	
 }

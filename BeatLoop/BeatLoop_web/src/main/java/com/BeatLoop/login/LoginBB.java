@@ -14,6 +14,8 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.BeatLoop.dao.UserDAO;
 import com.BeatLoop.entities.Role;
 import com.BeatLoop.entities.User;
@@ -54,14 +56,14 @@ public class LoginBB {
 	    // Usuń komunikat rejestracyjny z sesji (jeśli istnieje)
 	    ctx.getExternalContext().getSessionMap().remove("registrationMessage");
 
-	    // 1. Weryfikacja loginu i hasła - pobranie użytkownika z bazy danych
-	    User user = userDAO.getUserFromDatabase(login, pass);
+	 // 1. Pobierz użytkownika z bazy danych na podstawie loginu
+	    User user = userDAO.getUserFromDatabase(login);
 
-	    // 2. Jeśli login lub hasło są niepoprawne - pozostanie na tej samej stronie z informacją o błędzie
-	    if (user == null) {
-	        ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niepoprawny login lub hasło", null));
-	        return PAGE_STAY_AT_THE_SAME;
-	    }
+        // 2. Jeśli użytkownik nie istnieje lub hasło jest niepoprawne
+        if (user == null || !BCrypt.checkpw(pass, user.getPassword())) {
+            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niepoprawny login lub hasło", null));
+            return PAGE_STAY_AT_THE_SAME;
+        }
 
 	    
 	    System.out.println("Zalogowano użytkownika: " + user.getUsername());  // Logowanie udane

@@ -64,11 +64,10 @@
 	            <h:outputText value="opcje" />
 	        </f:facet>
 	
-	        <p:commandButton value="Edytuj"
-	            action="#{userList.editUser(u)}" />
+	        <p:commandButton value="Edytuj" action="#{userList.editUser(u)}" />
 	
-	        <p:commandButton value="Usuń"
-	            action="#{userList.deleteUserByName(u)}" update="@form" />
+	        <p:commandButton value="Usuń" action="#{userList.deleteUserByName(u.username)}" update="@form" />
+
 	    </p:column>
 	</p:dataTable>
 
