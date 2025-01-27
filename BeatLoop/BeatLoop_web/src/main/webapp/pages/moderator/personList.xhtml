@@ -18,7 +18,18 @@
 <h:body class="is-preload landing">
 <div id="page-wrapper">
 <div class="container">
-<div class="table-wrapper">
+		<section id="banerek">
+			<header id="header">
+				<h1 id="logo"><a href="/BeatLoop/pages/main-template-logged.xhtml">BeatLoop</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="/BeatLoop/pages/moderator/dashboard-songs.xhtml">Piosenki</a></li>
+						<li><a href="/BeatLoop/pages/moderator/personList.xhtml">Uzytkownicy</a></li>
+						<li><a href="/BeatLoop/pages/main-template-logged.xhtml">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+		</section>
 	<p:panel header="Opcje wyszukiwania" toggleable="true" collapsed="true"
 		style="margin-bottom: 1em;">
 		<h:form>
@@ -31,70 +42,71 @@
 	</p:panel>
 
 	<p:messages />
-
-	<h:form id="form-table" style="margin-bottom:1em;">
-	
-		 <!-- Komponent ajaxStatus dla ikony ładowania -->
-	    <p:ajaxStatus id="status" style="display: none;">
-	        <f:facet name="start">
-	            <!-- Ikona ładowania (loading icon) -->
-	            <h:outputText value="Ładowanie..." />
-	            <p:spinner styleClass="ui-spinner-large" />
-	        </f:facet>
-	    </p:ajaxStatus>
-
-		<p:commandButton value="Powrót do strony głównej" action="/pages/main-template-logged.xhtml?faces-redirect=true" style="margin-bottom:1em;" />
+	<section>
+		<div class="table-wrapper">	
+			<h:form id="form-table" style="margin-bottom:1em;">
+			
+				 <!-- Komponent ajaxStatus dla ikony ładowania -->
+			    <p:ajaxStatus id="status" style="display: none;">
+			        <f:facet name="start">
+			            <!-- Ikona ładowania (loading icon) -->
+			            <h:outputText value="Ładowanie..." />
+			            <p:spinner styleClass="ui-spinner-large" />
+			        </f:facet>
+			    </p:ajaxStatus>
 		
-		<p:dataTable id="userTable" value="#{dtLazyView.lazyModel}" rows ="10" var="u" paginator="true" paginatorPosition="both"
-        	paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-        	currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-        	rowsPerPageTemplate="5,10,{ShowAll|'All'}"
-        	lazy ="true"
-			styleClass="table" 
-            widgetVar="userTable">
-            <!-- lazy="true" w komponencie <p:dataTable> wskazuje, że dane będą ładowane na żądanie, tylko wtedy, gdy użytkownik przejdzie do następnej strony lub zastosuje filtry -->
-	    <p:column priority="5">
-	        <f:facet name="header">
-	            <h:outputText value="nazwa uzytkownika" />
-	        </f:facet>
-	        <h:outputText value="#{u.username}" />
-	    </p:column>
-	
-	    <p:column>
-	        <f:facet name="header">
-	            <h:outputText value="hasło" />
-	        </f:facet>
-	        <h:outputText value="#{u.password}" />
-	    </p:column>
-	
-	    <p:column priority="4">
-	        <f:facet name="header">
-	            <h:outputText value="email" />
-	        </f:facet>
-	        <h:outputText value="#{u.email}" />
-	    </p:column>
-	
-	    <p:column>
-	        <f:facet name="header">
-	            <h:outputText value="Rola" />
-	        </f:facet>
-	        <h:outputText value="#{u.roleRoleId.roleName}" />
-	    </p:column>
-	
-	    <p:column>
-	        <f:facet name="header">
-	            <h:outputText value="opcje" />
-	        </f:facet>
-	
-	        <p:commandButton value="Edytuj" action="#{userList.editUser(u)}" />
-	
-	        <p:commandButton value="Usuń" action="#{userList.deleteUserByName(u.username)}" update="@form" />
+				<p:dataTable id="userTable" value="#{dtLazyView.lazyModel}" rows ="10" var="u" paginator="true" paginatorPosition="both"
+		        	paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		        	currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+		        	rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+		        	lazy ="true"
+					styleClass="table" 
+		            widgetVar="userTable">
+		            <!-- lazy="true" w komponencie <p:dataTable> wskazuje, że dane będą ładowane na żądanie, tylko wtedy, gdy użytkownik przejdzie do następnej strony lub zastosuje filtry -->
+			    <p:column priority="5">
+			        <f:facet name="header">
+			            <h:outputText value="nazwa uzytkownika" />
+			        </f:facet>
+			        <h:outputText value="#{u.username}" />
+			    </p:column>
+			
+			    <p:column>
+			        <f:facet name="header">
+			            <h:outputText value="hasło" />
+			        </f:facet>
+			        <h:outputText value="#{u.password}" />
+			    </p:column>
+			
+			    <p:column priority="4">
+			        <f:facet name="header">
+			            <h:outputText value="email" />
+			        </f:facet>
+			        <h:outputText value="#{u.email}" />
+			    </p:column>
+			
+			    <p:column>
+			        <f:facet name="header">
+			            <h:outputText value="Rola" />
+			        </f:facet>
+			        <h:outputText value="#{u.roleRoleId.roleName}" />
+			    </p:column>
+			
+			    <p:column>
+			        <f:facet name="header">
+			            <h:outputText value="opcje" />
+			        </f:facet>
+			
+			        <p:commandButton value="Edytuj" action="#{userList.editUser(u)}" />
+			
+			        <p:commandButton value="Usuń" action="#{userList.deleteUserByName(u.username)}" update="@form" />
+		
+			    </p:column>
+			</p:dataTable>
+		
+			</h:form>
+		</div>
+	</section>
 
-	    </p:column>
-	</p:dataTable>
-
-	</h:form>
-</div>
 </div>
 </div>
 </h:body>

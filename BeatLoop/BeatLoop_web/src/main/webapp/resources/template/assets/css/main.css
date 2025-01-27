@@ -3537,6 +3537,88 @@ input, select, textarea {
 	body.is-touch #banner {
 		background-attachment: scroll;
 	}
+	
+ /* Banerek */
+	#banerek {
+		background-attachment: fixed;
+		/*background-color: #272833;
+		background-image: url("../../images/banner.jpg");
+		background-position: center center;
+		background-size: cover;*/
+		box-shadow: 0 0.25em 0.5em 0 rgba(0, 0, 0, 0.25);
+		min-height: 7vh;
+		position: relative;
+		text-align: center;
+		z-index: 21;
+	}
+
+		#banerek:before {
+			content: '';
+			/*display: inline-block;*/
+			height: 100vh;
+			/*vertical-align: middle;*/
+			width: 1%;
+		}
+
+		#banerek:after {
+			background-image: -moz-linear-gradient(top, rgba(23, 24, 32, 0.95), rgba(23, 24, 32, 0.95)), url("images/overlay.png");;
+			background-image: -webkit-linear-gradient(top, rgba(23, 24, 32, 0.95), rgba(23, 24, 32, 0.95)), url("images/overlay.png");;
+			background-image: -ms-linear-gradient(top, rgba(23, 24, 32, 0.95), rgba(23, 24, 32, 0.95)), url("images/overlay.png");;
+			background-image: linear-gradient(top, rgba(23, 24, 32, 0.95), rgba(23, 24, 32, 0.95)), url("images/overlay.png");;
+			content: '';
+			display: block;
+			height: 10%;  //
+			left: 0;
+			position: absolute;
+			top: 0;
+			width: 100%;
+		}
+
+		#banerek .content {
+			display: inline-block;
+			margin-right: 1%;
+			max-width: 95%;
+			padding: 6em;
+			position: relative;
+			text-align: right;
+			vertical-align: middle;
+			z-index: 1;
+		}
+
+			#banerek .content header {
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+				#banerek .content header h2 {
+					font-size: 2.5em;
+					margin: 0;
+				}
+
+				#baner .content header p {
+					margin: 0.5em 0 0 0;
+					top: 0;
+				}
+
+			#banerek .content .image {
+				border-radius: 100%;
+				display: inline-block;
+				height: 18em;
+				margin-left: 3em;
+				vertical-align: middle;
+				width: 18em;
+			}
+
+				#banerek .content .image img {
+					border-radius: 100%;
+					display: block;
+					width: 100%;
+				}
+
+	body.is-touch #banerek {
+		background-attachment: scroll;
+	}
+	
 
 /* Footer */
 
