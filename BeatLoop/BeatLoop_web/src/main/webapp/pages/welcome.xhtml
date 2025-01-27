@@ -13,9 +13,12 @@
     <title><ui:insert name="title">BeatLoop</ui:insert></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     
-    <!-- Ładowanie CSS -->
-    <h:outputStylesheet name="assets/css/main.css" library="template" />
+   <!-- Ładowanie CSS -->
+   <h:outputStylesheet name="assets/css/main.css" library="template" />
    <h:outputStylesheet name="assets/css/noscript.css" library="template" /> <!-- removed: rendered="false" -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+
+   
    <link rel="stylesheet" href="#{resource['template:assets/css/main.css']}" />
    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous" />
    <link type="image/x-icon" rel="shortcut icon"
@@ -33,28 +36,21 @@
 					</ul>
 				</nav>
 			</header>
-				<!-- jeśli występują błedy wywal je tutaj 
-				<div class="messages bottom-margin">
-					
-					<ul>
-						<li class="msg {if $msg->isError()}error{/if} {if $msg->isWarning()}warning{/if} {if $msg->isInfo()}info{/if}">{$msg->text}</li>
-					</ul>
-				</div>
-				-->
+
 			<!-- Banner -->
 			<section id="banner">
 				<div class="content">
 					<header>
 						<h2>BeatLoop</h2><p>Anywhere...<br />Everywhere...</p>
 					</header>
-					<span class="image"><img src="images/pic01.jpg" alt="" /></span>
+					<span class="image"><img src="#{resource['template:images/pic01.jpg']}" alt="" /></span>
 				</div>
 				<a href="#one" class="goto-next scrolly">Next</a>
 			</section>
 
 			<!-- One -->
 			<section id="one" class="spotlight style2 left">
-				<span class="image fit main"><img src="{$conf->app_url}/images/pic05.jpg" alt="" /></span>
+				<span class="image fit main"><img src="#{resource['template:images/pic04.jpg']}" alt="" /></span>
 				<div class="content">
 				<fieldset>
 					<div class="music-player">
@@ -77,16 +73,6 @@
 						</div>
 					</div>
 				</fieldset>
-				</div>
-				<a href="#two" class="goto-next scrolly">Next</a>
-			</section>
-
-			<!-- Two -->
-			<section id="two" class="wrapper style1">
-				<div class="content">
-
-					{block name=musicLibrary} Tu powinna być biblioteka z muzyką.... {/block}
-
 				</div>
 				<a href="#footer" class="goto-next scrolly">Next</a>
 			</section>

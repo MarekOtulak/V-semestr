@@ -9,10 +9,18 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 import com.BeatLoop.entities.Role;
 import com.BeatLoop.entities.User;
+import org.primefaces.model.SortMeta;
+import org.primefaces.model.FilterMeta;
+import org.primefaces.model.SortOrder;
 
 //DAO - Data Access Object for Person entity
 //Designed to serve as an interface between higher layers of application and data.
@@ -167,4 +175,17 @@ public class UserDAO {
             return null; // Handle any other exceptions
         }
     }
+    
+    public List<User> getUsersWithPagination(int offset, int pageSize) { //W getUsersWithPagination() zapytanie JPA używa setFirstResult(offset) i setMaxResults(pageSize), co pozwala na pobieranie tylko tych użytkowników, którzy są potrzebni dla konkretnej strony tabeli. Paginacja działa na poziomie bazy danych - dane nie są ładowane w całości, tylko odpowiednia ich część
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+        query.setFirstResult(offset);
+        query.setMaxResults(pageSize);
+        return query.getResultList();
+    }
+
+    public int countUsers() {
+        return ((Long) em.createQuery("SELECT COUNT(u) FROM User u").getSingleResult()).intValue();
+    }
+
+
 }

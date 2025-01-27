@@ -9,9 +9,16 @@
 <h:head>
 	<meta charset="utf-8" />
 	<title>BeatLoop</title>
-</h:head>
-<h:body style="background-color: #eee; margin: 0.5em;">
+	<h:outputStylesheet name="assets/css/main.css" library="template" />
+   <h:outputStylesheet name="assets/css/noscript.css" library="template" /> <!-- removed: rendered="false" -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+   <link rel="stylesheet" href="#{resource['template:assets/css/main.css']}" />
 
+</h:head>
+<h:body class="is-preload landing">
+<div id="page-wrapper">
+<div class="container">
+<div class="table-wrapper">
 	<p:panel header="Opcje wyszukiwania" toggleable="true" collapsed="true"
 		style="margin-bottom: 1em;">
 		<h:form>
@@ -26,11 +33,26 @@
 	<p:messages />
 
 	<h:form id="form-table" style="margin-bottom:1em;">
+	
+		 <!-- Komponent ajaxStatus dla ikony ładowania -->
+	    <p:ajaxStatus id="status" style="display: none;">
+	        <f:facet name="start">
+	            <!-- Ikona ładowania (loading icon) -->
+	            <h:outputText value="Ładowanie..." />
+	            <p:spinner styleClass="ui-spinner-large" />
+	        </f:facet>
+	    </p:ajaxStatus>
 
-		<p:commandButton value="Dodaj nową osobę" action="#{userList.newUser()}" style="margin-bottom:1em;" />
 		<p:commandButton value="Powrót do strony głównej" action="/pages/main-template-logged.xhtml?faces-redirect=true" style="margin-bottom:1em;" />
 		
-		<p:dataTable value="#{userList.list}" var="u">
+		<p:dataTable id="userTable" value="#{dtLazyView.lazyModel}" rows ="10" var="u" paginator="true" paginatorPosition="both"
+        	paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+        	currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+        	rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+        	lazy ="true"
+			styleClass="table" 
+            widgetVar="userTable">
+            <!-- lazy="true" w komponencie <p:dataTable> wskazuje, że dane będą ładowane na żądanie, tylko wtedy, gdy użytkownik przejdzie do następnej strony lub zastosuje filtry -->
 	    <p:column priority="5">
 	        <f:facet name="header">
 	            <h:outputText value="nazwa uzytkownika" />
@@ -72,6 +94,8 @@
 	</p:dataTable>
 
 	</h:form>
-
+</div>
+</div>
+</div>
 </h:body>
 </html>

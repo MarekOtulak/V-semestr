@@ -16,6 +16,7 @@
     <!-- Ładowanie CSS -->
     <h:outputStylesheet name="assets/css/main.css" library="template" />
    <h:outputStylesheet name="assets/css/noscript.css" library="template" /> <!-- removed: rendered="false" -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
    <link rel="stylesheet" href="#{resource['template:assets/css/main.css']}" />
    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous" />
    <link type="image/x-icon" rel="shortcut icon"
@@ -36,7 +37,7 @@
 
 			<!-- One -->
 			<section id="one" class="spotlight style2 left">
-				<span class="image fit main"><img src="{$conf->app_url}/images/pic05.jpg" alt="" /></span>
+				<span class="image fit main"><img src="#{resource['template:images/pic03.jpg']}" alt="" /></span>
 				<div class="content">
 				<h:form columns="2" cellpadding="5" styleClass="bottom-space">
 					<!-- Check if the session contains a registration message -->

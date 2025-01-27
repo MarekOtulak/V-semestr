@@ -20,6 +20,7 @@
     <!-- Ładowanie CSS -->
     <h:outputStylesheet name="assets/css/main.css" library="template" />
    <h:outputStylesheet name="assets/css/noscript.css" library="template" /> <!-- removed: rendered="false" -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
    <link rel="stylesheet" href="#{resource['template:assets/css/main.css']}" />
    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous" />
    <link type="image/x-icon" rel="shortcut icon"
@@ -29,12 +30,12 @@
 <h:body class="is-preload landing">
 		<div id="page-wrapper">
 			<header id="header">
-				<h1 id="logo"><a href="main-template-logged.html">BeatLoop</a></h1>
+				<h1 id="logo"><a href="/BeatLoop/pages/main-template-logged.xhtml">BeatLoop</a></h1>
 				<nav id="nav">
 					<ul>
-						<li><a href="{$conf->action_url}songPanel">Piosenki</a></li>
+						<li><a href="/BeatLoop/pages/main-template-logged.xhtml">Piosenki</a></li>
 						<li><a href="/BeatLoop/pages/moderator/personList.xhtml">Uzytkownicy</a></li>
-						<li><a href="{$conf->action_url}logged">Home</a></li>
+						<li><a href="/BeatLoop/pages/main-template-logged.xhtml">Home</a></li>
 						<li>
 							<div class="pure-form pure-form-stacked">
 							<h:form style="display:inline;">
@@ -60,46 +61,7 @@
 						<h2>BeatLoop</h2><p>Anywhere...<br />Everywhere...</p>
 						<h:outputText value="Zalogowany: #{remoteClient.details.username}" />
 					</header>
-					<span class="image"><img src="images/pic01.jpg" alt="" /></span>
-				</div>
-				<a href="#one" class="goto-next scrolly">Next</a>
-			</section>
-
-			<!-- One -->
-			<section id="one" class="spotlight style2 left">
-				<span class="image fit main"><img src="{$conf->app_url}/images/pic05.jpg" alt="" /></span>
-				<div class="content">
-				<fieldset>
-					<div class="music-player">
-						<div class="album-cover">
-							<img src="#" alt="Album Cover" /> <!-- dodać okladke (album_cover.jpg)-->
-						</div>
-						<div class="song-details">
-							<h2 id="song-title">Song Title</h2>
-							<p id="artist">Artist</p>
-						</div>
-						<audio id="audio-player" controls="controls">
-							<!-- Tutaj wstawić URL do pliku audio -->
-							<source src="#" type="audio/mpeg" />
-							Your browser does not support the audio element.
-						</audio>
-						<div class="music-controls">
-							<button id="prev-song">&#9664;</button>
-							<button id="play-pause">&#9658;</button>
-							<button id="next-song">&#9654;</button>
-						</div>
-					</div>
-				</fieldset>
-				</div>
-				<a href="#two" class="goto-next scrolly">Next</a>
-			</section>
-
-			<!-- Two -->
-			<section id="two" class="wrapper style1">
-				<div class="content">
-
-					{block name=musicLibrary} Tu powinna być biblioteka z muzyką.... {/block}
-
+					<span class="image"><img src="#{resource['template:images/pic01.jpg']}" alt="" /></span>
 				</div>
 				<a href="#footer" class="goto-next scrolly">Next</a>
 			</section>
