@@ -5,7 +5,6 @@
 package com.BeatLoop.entities;
 
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +19,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -57,15 +55,14 @@ public class User implements Serializable {
     private String username;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 8, max = 255, message = "Hasło musi mieć długość od 8 do 255 znaków.")
+    @Size(min = 1, max = 255)
     @Column(name = "password")
-    //@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>])[a-zA-Z\\d!@#$%^&*(),.?\":{}|<>]{8,}$", message = "Hasło musi zawierać co najmniej jedną małą literę (bez polskich znaków), jedną wielką literę, jedną cyfrę, jeden znak specjalny oraz mieć co najmniej 8 znaków.")
     private String password;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "email")
-    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "Niepoprawny format adresu email. Adres musi zawierać '@', nie może zawierać spacji oraz tylko jedną kropkę w domenie.")
     private String email;
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -75,10 +72,8 @@ public class User implements Serializable {
     private Date updatedAt;
     @Column(name = "role_id")
     private BigInteger roleId;
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "updatedBy")
-    private Collection<Song> songCollection;
     @JoinColumn(name = "role_role_id", referencedColumnName = "role_id")
-    @ManyToOne( optional = false)
+    @ManyToOne(optional = false)
     private Role roleRoleId;
     @OneToMany(mappedBy = "updatedBy")
     private Collection<User> userCollection;
@@ -154,14 +149,6 @@ public class User implements Serializable {
 
     public void setRoleId(BigInteger roleId) {
         this.roleId = roleId;
-    }
-
-    public Collection<Song> getSongCollection() {
-        return songCollection;
-    }
-
-    public void setSongCollection(Collection<Song> songCollection) {
-        this.songCollection = songCollection;
     }
 
     public Role getRoleRoleId() {

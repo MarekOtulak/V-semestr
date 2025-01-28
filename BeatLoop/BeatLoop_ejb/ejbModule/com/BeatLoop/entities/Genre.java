@@ -29,7 +29,7 @@ import java.util.Collection;
 @NamedQueries({
     @NamedQuery(name = "Genre.findAll", query = "SELECT g FROM Genre g"),
     @NamedQuery(name = "Genre.findByGenreId", query = "SELECT g FROM Genre g WHERE g.genreId = :genreId"),
-    @NamedQuery(name = "Genre.findByGenreName", query = "SELECT g FROM Genre g WHERE g.genreName = :genreName")})
+    @NamedQuery(name = "Genre.findByName", query = "SELECT g FROM Genre g WHERE g.name = :name")})
 public class Genre implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,9 +40,9 @@ public class Genre implements Serializable {
     private Integer genreId;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 65)
-    @Column(name = "genre_name")
-    private String genreName;
+    @Size(min = 1, max = 128)
+    @Column(name = "name")
+    private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "genreGenreId")
     private Collection<Song> songCollection;
 
@@ -53,9 +53,9 @@ public class Genre implements Serializable {
         this.genreId = genreId;
     }
 
-    public Genre(Integer genreId, String genreName) {
+    public Genre(Integer genreId, String name) {
         this.genreId = genreId;
-        this.genreName = genreName;
+        this.name = name;
     }
 
     public Integer getGenreId() {
@@ -66,12 +66,12 @@ public class Genre implements Serializable {
         this.genreId = genreId;
     }
 
-    public String getGenreName() {
-        return genreName;
+    public String getName() {
+        return name;
     }
 
-    public void setGenreName(String genreName) {
-        this.genreName = genreName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Collection<Song> getSongCollection() {

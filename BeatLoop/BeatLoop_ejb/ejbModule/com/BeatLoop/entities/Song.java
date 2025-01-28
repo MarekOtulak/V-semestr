@@ -11,18 +11,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
 
 /**
  *
@@ -34,11 +29,9 @@ import java.util.Date;
     @NamedQuery(name = "Song.findAll", query = "SELECT s FROM Song s"),
     @NamedQuery(name = "Song.findBySongId", query = "SELECT s FROM Song s WHERE s.songId = :songId"),
     @NamedQuery(name = "Song.findByTitle", query = "SELECT s FROM Song s WHERE s.title = :title"),
-    @NamedQuery(name = "Song.findByReleaseYear", query = "SELECT s FROM Song s WHERE s.releaseYear = :releaseYear"),
-    @NamedQuery(name = "Song.findByFilePath", query = "SELECT s FROM Song s WHERE s.filePath = :filePath"),
-    @NamedQuery(name = "Song.findByIsApproved", query = "SELECT s FROM Song s WHERE s.isApproved = :isApproved"),
-    @NamedQuery(name = "Song.findByCreatedAt", query = "SELECT s FROM Song s WHERE s.createdAt = :createdAt"),
-    @NamedQuery(name = "Song.findByUpdatedAt", query = "SELECT s FROM Song s WHERE s.updatedAt = :updatedAt")})
+    @NamedQuery(name = "Song.findByImgUrl", query = "SELECT s FROM Song s WHERE s.imgUrl = :imgUrl"),
+    @NamedQuery(name = "Song.findBySongUrl", query = "SELECT s FROM Song s WHERE s.songUrl = :songUrl"),
+    @NamedQuery(name = "Song.findByArtist", query = "SELECT s FROM Song s WHERE s.artist = :artist")})
 public class Song implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,31 +45,19 @@ public class Song implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "title")
     private String title;
+    @Size(max = 512)
+    @Column(name = "img_url")
+    private String imgUrl;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "release_year")
-    @Temporal(TemporalType.DATE)
-    private Date releaseYear;
+    @Size(min = 1, max = 512)
+    @Column(name = "song_url")
+    private String songUrl;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "file_path")
-    private String filePath;
-    @Column(name = "is_approved")
-    private Short isApproved;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "created_at")
-    @Temporal(TemporalType.DATE)
-    private Date createdAt;
-    @Column(name = "updated_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
-    @ManyToMany(mappedBy = "songCollection")
-    private Collection<Album> albumCollection;
-    @JoinColumn(name = "updated_by", referencedColumnName = "user_id")
-    @ManyToOne(optional = false)
-    private User updatedBy;
+    @Column(name = "artist")
+    private String artist;
     @JoinColumn(name = "genre_genre_id", referencedColumnName = "genre_id")
     @ManyToOne(optional = false)
     private Genre genreGenreId;
@@ -88,12 +69,11 @@ public class Song implements Serializable {
         this.songId = songId;
     }
 
-    public Song(Integer songId, String title, Date releaseYear, String filePath, Date createdAt) {
+    public Song(Integer songId, String title, String songUrl, String artist) {
         this.songId = songId;
         this.title = title;
-        this.releaseYear = releaseYear;
-        this.filePath = filePath;
-        this.createdAt = createdAt;
+        this.songUrl = songUrl;
+        this.artist = artist;
     }
 
     public Integer getSongId() {
@@ -112,60 +92,28 @@ public class Song implements Serializable {
         this.title = title;
     }
 
-    public Date getReleaseYear() {
-        return releaseYear;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setReleaseYear(Date releaseYear) {
-        this.releaseYear = releaseYear;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getSongUrl() {
+        return songUrl;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setSongUrl(String songUrl) {
+        this.songUrl = songUrl;
     }
 
-    public Short getIsApproved() {
-        return isApproved;
+    public String getArtist() {
+        return artist;
     }
 
-    public void setIsApproved(Short isApproved) {
-        this.isApproved = isApproved;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Collection<Album> getAlbumCollection() {
-        return albumCollection;
-    }
-
-    public void setAlbumCollection(Collection<Album> albumCollection) {
-        this.albumCollection = albumCollection;
-    }
-
-    public User getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(User updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setArtist(String artist) {
+        this.artist = artist;
     }
 
     public Genre getGenreGenreId() {

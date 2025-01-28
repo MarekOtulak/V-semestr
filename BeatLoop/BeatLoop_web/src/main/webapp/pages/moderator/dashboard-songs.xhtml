@@ -1,45 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-	<meta charset="utf-8" />
-	<title>Piosenki</title>
-	<h:outputStylesheet name="assets/css/main.css" library="template" />
-   <h:outputStylesheet name="assets/css/noscript.css" library="template" /> <!-- removed: rendered="false" -->
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
-   <link rel="stylesheet" href="#{resource['template:assets/css/main.css']}" />
-
+    <meta charset="utf-8" />
+    <title>BeatLoop - Piosenki</title>
+    <h:outputStylesheet name="assets/css/main.css" library="template" />
+    <h:outputStylesheet name="assets/css/noscript.css" library="template" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="#{resource['template:assets/css/main.css']}" />
 </h:head>
+
 <h:body class="is-preload landing">
-<div id="page-wrapper">
-<div class="container">
-		<section id="baner">
-			<header id="header">
-				<h1 id="logo"><a href="/BeatLoop/pages/main-template-logged.xhtml">BeatLoop</a></h1>
-				<nav id="nav">
-					<ul>
-						<li><a href="/BeatLoop/pages/moderator/dashboard-songs.xhtml">Piosenki</a></li>
-						<li><a href="/BeatLoop/pages/moderator/personList.xhtml">Uzytkownicy</a></li>
-						<li><a href="/BeatLoop/pages/main-template-logged.xhtml">Home</a></li>
-					</ul>
-				</nav>
-			</header>
-		</section>
+    <div id="page-wrapper">
+        <div class="container">
+            <section id="banerek">
+                <header id="header">
+                    <h1 id="logo"><a href="/BeatLoop/pages/main-template-logged.xhtml">BeatLoop</a></h1>
+                    <nav id="nav">
+                        <ul>
+                            <li><a href="/BeatLoop/pages/moderator/dashboard-songs.xhtml">Piosenki</a></li>
+                            <li><a href="/BeatLoop/pages/moderator/personList.xhtml">Użytkownicy</a></li>
+                            <li><a href="/BeatLoop/pages/main-template-logged.xhtml">Home</a></li>
+                        </ul>
+                    </nav>
+                </header>
+            </section>
 
+            <p:panel header="Opcje wyszukiwania" toggleable="true" collapsed="true" style="margin-bottom: 1em;">
+                <h:form>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel value="Tytuł piosenki:" />
+                        <p:inputText value="#{SongService.songFilter}" />
+                        <p:commandButton value="Szukaj" action="#{SongService.searchSongs}" update="songTable" />
+                        <p:commandButton value="Wyczyść" action="#{SongService.clearFilter}" update="songTable" />
+                    </h:panelGrid>
+                </h:form>
+            </p:panel>
 
-	<p:messages />
-	<section>
-		<div class="table-wrapper">	
-			
-		</div>
-	</section>
+            <p:messages />
+            <section>
+                <div class="table-wrapper">
+                    <h:form id="songTable" style="margin-bottom:1em;">
+                        <p:dataTable id="songTable" value="#{SongService.getAllSongs}" var="song" rows="10"
+                                     paginator="true" paginatorPosition="both"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                     rowsPerPageTemplate="5,10,15"
+                                     styleClass="table" widgetVar="songTable">
+                            <p:column headerText="Tytuł">
+                                <h:outputText value="#{song.title}" />
+                            </p:column>
 
-</div>
-</div>
+                            <p:column headerText="Artysta">
+                                <h:outputText value="#{song.artist}" />
+                            </p:column>
+
+                            <p:column headerText="Gatunek">
+                                <h:outputText value="#{song.genre.name}" />
+                            </p:column>
+
+                            <p:column headerText="Plik MP3">
+                                <h:outputLink value="#{song.mp3Url}" target="_blank">
+                                    <i class="fa fa-download"></i> Pobierz
+                                </h:outputLink>
+                            </p:column>
+
+                            <p:column headerText="Opcje">
+                                <p:commandButton value="Odtwórz" icon="pi pi-play"
+                                                 onclick="window.open('#{song.songUrl}', '_blank')" />
+                                <p:commandButton value="Usuń" icon="pi pi-trash"
+                                                 action="#{songBean.deleteSong(song.songId)}"
+                                                 update="@form" />
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </div>
+            </section>
+        </div>
+    </div>
 </h:body>
 </html>

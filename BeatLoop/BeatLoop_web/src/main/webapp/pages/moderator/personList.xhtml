@@ -30,16 +30,6 @@
 				</nav>
 			</header>
 		</section>
-	<p:panel header="Opcje wyszukiwania" toggleable="true" collapsed="true"
-		style="margin-bottom: 1em;">
-		<h:form>
-			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="nazwa uzytkownika:" />
-				<p:inputText value="#{userList.username}" />
-				<p:commandButton value="Szukaj" update="form-table" />
-			</h:panelGrid>
-		</h:form>
-	</p:panel>
 
 	<p:messages />
 	<section>
@@ -61,9 +51,8 @@
 		        	rowsPerPageTemplate="5,10,{ShowAll|'All'}"
 		        	lazy ="true"
 					styleClass="table" 
-		            widgetVar="userTable">
-		            <!-- lazy="true" w komponencie <p:dataTable> wskazuje, że dane będą ładowane na żądanie, tylko wtedy, gdy użytkownik przejdzie do następnej strony lub zastosuje filtry -->
-			    <p:column priority="5">
+		            widgetVar="userTable" filterEvent="keyup">
+			    <p:column priority="5" filterBy="#{u.username}" filterMatchMode="contains" filterPlaceholder="Szukaj...">
 			        <f:facet name="header">
 			            <h:outputText value="nazwa uzytkownika" />
 			        </f:facet>
@@ -95,9 +84,7 @@
 			        <f:facet name="header">
 			            <h:outputText value="opcje" />
 			        </f:facet>
-			
-			        <p:commandButton value="Edytuj" action="#{userList.editUser(u)}" />
-			
+			        
 			        <p:commandButton value="Usuń" action="#{userList.deleteUserByName(u.username)}" update="@form" />
 		
 			    </p:column>

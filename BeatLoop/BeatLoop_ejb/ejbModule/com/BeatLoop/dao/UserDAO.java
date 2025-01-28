@@ -30,7 +30,6 @@ import org.primefaces.model.SortOrder;
 public class UserDAO {
 	private final static String UNIT_NAME = "BeatLoop-simplePU";
 
-	// Dependency injection (no setter method is needed)
 	@PersistenceContext(unitName = UNIT_NAME)
 	protected EntityManager em;
 
@@ -185,6 +184,29 @@ public class UserDAO {
 
     public int countUsers() {
         return ((Long) em.createQuery("SELECT COUNT(u) FROM User u").getSingleResult()).intValue();
+    }
+    
+    public List<User> getUsersWithPaginationAndFilter(int offset, int pageSize, String usernameFilter) {
+        String query = "SELECT u FROM User u WHERE (:username IS NULL OR u.username LIKE :username)";
+        TypedQuery<User> typedQuery = em.createQuery(query, User.class);
+
+        if (usernameFilter != null && !usernameFilter.isEmpty()) {
+            typedQuery.setParameter("username", "%" + usernameFilter + "%");
+        } else {
+            typedQuery.setParameter("username", null);
+        }
+
+        typedQuery.setFirstResult(offset);
+        typedQuery.setMaxResults(pageSize);
+
+        return typedQuery.getResultList();
+    }
+
+    public int countUsersWithFilter(String usernameFilter) {
+        String query = "SELECT COUNT(u) FROM User u WHERE (:username IS NULL OR u.username LIKE :username)";
+        TypedQuery<Long> typedQuery = em.createQuery(query, Long.class);
+        typedQuery.setParameter("username", usernameFilter != null ? "%" + usernameFilter + "%" : null);
+        return typedQuery.getSingleResult().intValue();
     }
 
 

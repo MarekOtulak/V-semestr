@@ -39,19 +39,33 @@ public class LazyView implements Serializable {
 
             @Override
             public List<User> load(int offset, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filters) { //load() odpowiada za pobieranie tylko tych rekordów, które są wymagane do wyświetlenia na obecnej stronie (z uwzględnieniem parametrów paginacji), dane są ładowane na żądanie z użyciem lazy loadingu.
-                // Pobierz użytkowników z bazy danych z uwzględnieniem paginacji
-                List<User> users = userDAO.getUsersWithPagination(offset, pageSize); //Parametry offset i pageSize w metodzie load() wskazują na paginację (pobieranie danych tylko dla danej strony wraz z odpowiednim limitem wierszy).
+            	String filterUsername = null;
 
-                // Ustaw liczbę rekordów (total count) bez filtrów
-                setRowCount(userDAO.countUsers());
+                // Pobierz filtr dla "username", jeśli istnieje
+                if (filters.containsKey("username")) {
+                    filterUsername = (String) filters.get("username").getFilterValue();
+                }
+            	
+                // Pobierz użytkowników z bazy danych z uwzględnieniem paginacji i filtra
+                List<User> users = userDAO.getUsersWithPaginationAndFilter(offset, pageSize, filterUsername); //Parametry offset i pageSize w metodzie load() wskazują na paginację (pobieranie danych tylko dla danej strony wraz z odpowiednim limitem wierszy).
+
+                // Ustaw liczbę rekordów po filtrach
+                setRowCount(userDAO.countUsersWithFilter(filterUsername));
 
                 return users;
             }
 
             @Override
             public int count(Map<String, FilterMeta> filters) {
-                // Zwróć liczbę wszystkich użytkowników (bez filtrów)
-                return userDAO.countUsers();
+                String filterUsername = null;
+
+                // Pobierz filtr dla "username", jeśli istnieje
+                if (filters.containsKey("username")) {
+                    filterUsername = (String) filters.get("username").getFilterValue();
+                }
+
+                // Zwróć liczbę rekordów po filtrach
+                return userDAO.countUsersWithFilter(filterUsername);
             }
         };
     }
