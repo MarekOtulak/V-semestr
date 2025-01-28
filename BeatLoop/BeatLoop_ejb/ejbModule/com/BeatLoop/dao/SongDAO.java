@@ -70,4 +70,24 @@ public class SongDAO {
             return null;
         }
     }
+    
+    
+    public Song findById(int id) { // NOWA METODA
+        try {
+            return em.find(Song.class, id);
+        } catch (NoResultException e) {
+            System.out.println("Piosenka o ID " + id + " nie znaleziona.");
+            return null;
+        }
+    }
+
+    public void update(Song song) { // NOWA METODA
+        try {
+            em.merge(song); // Aktualizacja danych piosenki w bazie
+            System.out.println("Piosenka " + song.getTitle() + " została zaktualizowana.");
+        } catch (Exception e) {
+            System.out.println("Błąd podczas aktualizacji piosenki: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

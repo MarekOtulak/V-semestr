@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<meta charset="utf-8" />
+	<title>Piosenki</title>
+	<h:outputStylesheet name="assets/css/main.css" library="template" />
+   <h:outputStylesheet name="assets/css/noscript.css" library="template" /> <!-- removed: rendered="false" -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+   <link rel="stylesheet" href="#{resource['template:assets/css/main.css']}" />
+</h:head>
+<h:body class="is-preload landing">
+<f:view>
+<f:metadata>
+	    <f:viewParam name="songId" value="#{songService.songId}" />
+	    <f:event type="preRenderView" listener="#{songService.loadSongDetails}" />
+</f:metadata>
+<div id="page-wrapper">
+<div class="container">
+		<section id="banerek">
+			<header id="header">
+				<h1 id="logo"><a href="/BeatLoop/pages/main-template-logged.xhtml">BeatLoop</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="/BeatLoop/pages/moderator/dashboard-songs.xhtml">Piosenki</a></li>
+						<li><a href="/BeatLoop/pages/moderator/personList.xhtml">Uzytkownicy</a></li>
+						<li><a href="/BeatLoop/pages/main-template-logged.xhtml">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+		</section>
+
+	<p:messages />
+	<!-- Formularz dodawania piosenki -->
+        <section>
+            <div class="content">
+			<h:panelGrid>
+                <h:form id="editSongForm">
+				    <h:outputLabel for="title" value="Tytuł:" />
+				    <h:inputText id="title" value="#{songService.title}" required="true" />
+				    <h:message for="title" />
+				
+				    <h:outputLabel for="artist" value="Wykonawca:" />
+				    <h:inputText id="artist" value="#{songService.artist}" required="true" />
+				    <h:message for="artist" />
+				
+				    <h:outputLabel for="songUrl" value="URL Piosenki:" />
+				    <h:inputText id="songUrl" value="#{songService.songUrl}" required="true" />
+				    <h:message for="songUrl" />
+				
+				    <h:outputLabel for="genre" value="Gatunek:" />
+				    <h:selectOneMenu id="genre" value="#{songService.genreId}" required="true">
+				        <f:selectItems value="#{songService.allGenres}" var="genre" itemValue="#{genre.genreId}" itemLabel="#{genre.name}" />
+				    </h:selectOneMenu>
+				    <h:message for="genre" />
+				
+				    <h:commandButton value="Zapisz" action="#{songService.saveSongDetails}" />
+				</h:form>
+			</h:panelGrid>
+        </div>
+        </section>
+</div>
+</div>
+</f:view>
+</h:body>
+</html>

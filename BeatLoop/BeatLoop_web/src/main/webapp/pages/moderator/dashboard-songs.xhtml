@@ -63,7 +63,7 @@
 
                             <p:column headerText="Opcje">
                             	<p:commandButton value="Usuń" action="#{songService.deleteSongByName(song.title)}" update="@form" />
-                            	<p:commandButton value="Edytuj" action="#{songService.editSongBySongId(song.songid)}" update="@form" />
+                            	<p:commandButton value="Edytuj" action="#{songService.prepareEdit(song.songId)}" ajax="false" />
                             </p:column>
                         </p:dataTable>
                     </h:form>

@@ -59,13 +59,13 @@
 				
 				        <!-- Genre (Optional) -->
 				        <h:outputLabel for="genre" value="Gatunek:" />
-				        <h:selectOneMenu id="genre" value="#{songService.songid}" required="true" requiredMessage="Gatunek jest wymagany!">
+				        <h:selectOneMenu id="genre" value="#{songService.songId}" required="true" requiredMessage="Gatunek jest wymagany!">
 				            <f:selectItem itemLabel="Wybierz gatunek" itemValue="#{null}" />
 				            <f:selectItems value="#{songService.getAllGenres()}" var="genre" itemValue="#{genre.genreId}" itemLabel="#{genre.name}" />
 				        </h:selectOneMenu>
 				    	<h:messages id="msgs" />
 					
-				    <p:commandButton value="Dodaj Piosenkę" action="#{songService.addSong()}" process="@form" update="@form"/>
+				    <p:commandButton value="Dodaj Piosenkę" action="#{songService.addSong()}" update="@form"/>
 				</h:form>
 			</h:panelGrid>
         </div>
