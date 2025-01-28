@@ -23,7 +23,7 @@
                     <h1 id="logo"><a href="/BeatLoop/pages/main-template-logged.xhtml">BeatLoop</a></h1>
                     <nav id="nav">
                         <ul>
-                            <li><a href="/BeatLoop/pages/moderator/dashboard-songs.xhtml">Piosenki</a></li>
+                            <li><a href="/BeatLoop/pages/moderator/songPanel.xhtml">Dodaj piosenki</a></li>
                             <li><a href="/BeatLoop/pages/moderator/personList.xhtml">Użytkownicy</a></li>
                             <li><a href="/BeatLoop/pages/main-template-logged.xhtml">Home</a></li>
                         </ul>
@@ -46,7 +46,7 @@
             <section>
                 <div class="table-wrapper">
                     <h:form id="songTable" style="margin-bottom:1em;">
-                        <p:dataTable id="songTable" value="#{SongService.getAllSongs}" var="song" rows="10"
+                        <p:dataTable id="songTable" value="#{SongService.allSongs}" var="song" rows="10"
                                      paginator="true" paginatorPosition="both"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
@@ -74,7 +74,7 @@
                                 <p:commandButton value="Odtwórz" icon="pi pi-play"
                                                  onclick="window.open('#{song.songUrl}', '_blank')" />
                                 <p:commandButton value="Usuń" icon="pi pi-trash"
-                                                 action="#{songBean.deleteSong(song.songId)}"
+                                                 action="#{songService.deleteSong(song.songId)}"
                                                  update="@form" />
                             </p:column>
                         </p:dataTable>

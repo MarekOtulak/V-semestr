@@ -1,16 +1,11 @@
 package com.BeatLoop.dao;
 
 import com.BeatLoop.entities.Song;
-import com.BeatLoop.entities.User;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
-import jakarta.ejb.Stateless;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
@@ -23,6 +18,13 @@ public class SongDAO {
     //Zapisuje nową piosenkę w bazie danych.
     public void create(Song song) {
         em.persist(song);
+    }
+    
+    // Metoda pobierająca wszystkie utwory z powiązanym gatunkiem
+    public List<Song> getAllSongsWithGenre() {
+        String jpql = "SELECT s FROM Song s JOIN s.genreGenreId g";
+        TypedQuery<Song> query = em.createQuery(jpql, Song.class);
+        return query.getResultList();
     }
 
     //Usuwa piosenkę z bazy danych.
