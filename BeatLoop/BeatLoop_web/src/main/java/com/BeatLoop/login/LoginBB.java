@@ -91,33 +91,14 @@ public class LoginBB {
 	    // Logowanie sesji, aby upewnić się, że sesja została poprawnie ustawiona
 	    HttpSession session = request.getSession();
 	    System.out.println("Sesja: " + session.getId());  // Powinno pokazać nową sesję
-	    
-	    // Przejście do strony głównej po zalogowaniu
+	   
 	    return PAGE_MAIN;
-	    
-	    /*
-	    
-	    // Pobranie ról użytkownika z bazy danych
-	    List<Role> roleIds = userDAO.getUserRolesFromDatabase(user);
 
-	    if (roleIds != null) { // Zapisanie ról w RemoteClient
-	    	client.getRoles().addAll(roleIds.stream().map(String::valueOf).collect(Collectors.toList()));  // Przekształcamy Integer do String
-	    }
-
-	    // Przechowanie RemoteClient z informacjami o sesji (potrzebne dla SecurityFilter)
-	    HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
-	    client.store(request);
-	    
-	    // Przejście do systemu
-	    return PAGE_MAIN;*/
 	}
 
 	
 	public String doLogout(){
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-		//Invalidate session
-		// - all objects within session will be destroyed
-		// - new session will be created (with new ID)
 		session.invalidate();
 		return PAGE_LOGIN;
 	}

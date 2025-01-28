@@ -12,7 +12,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Users/Marek Otulak/Downloads/bcrypt-0.7.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Marek Otulak/git/V-semestr/BeatLoop/BeatLoop_web/src/main/webapp/WEB-INF/lib/primefaces-14.0.0-jakarta.jar"/>
+	<classpathentry kind="lib" path="C:/Users/omarc/Downloads/jbcrypt-0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse Workplaces/github/V-semestr/BeatLoop/BeatLoop_web/src/main/webapp/WEB-INF/lib/primefaces-14.0.0-jakarta.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

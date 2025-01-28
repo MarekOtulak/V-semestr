@@ -63,19 +63,6 @@ public class UserList {
 		return list;
 	}
 
-	public String newUser(){
-
-		User user = new User();
-		//1. Pass object through session
-		//HttpSession session = (HttpSession) extcontext.getSession(true);
-		//session.setAttribute("person", person);
-		
-		//2. Pass object through flash	
-		flash.put("user", user);
-		
-		return PAGE_PERSON_EDIT;
-	}
-
 	public String editUser(User user){
 		//1. Pass object through session
 		//HttpSession session = (HttpSession) extcontext.getSession(true);
@@ -86,11 +73,7 @@ public class UserList {
 		
 		return PAGE_PERSON_EDIT;
 	}
-/*
-	public String deleteUser(User user){
-		userDAO.remove(user);
-		return PAGE_STAY_AT_THE_SAME;
-	}*/
+	
 	@Transactional
 	public void deleteUserByName(String username) {
 		System.out.println("Metoda deleteUserByName wywołana dla użytkownika: " + username);

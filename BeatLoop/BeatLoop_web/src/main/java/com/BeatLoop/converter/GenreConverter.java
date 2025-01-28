@@ -1,7 +1,9 @@
-package com.BeatLoop.converter;
+/*package com.BeatLoop.converter;
 
 import com.BeatLoop.dao.GenreDAO;
 import com.BeatLoop.entities.Genre;
+
+import jakarta.ejb.EJB;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
@@ -10,7 +12,7 @@ import jakarta.inject.Inject;
 
 @FacesConverter(forClass = Genre.class)
 public class GenreConverter implements Converter {
-
+	@EJB
     private GenreDAO genreDAO;
     
     public GenreConverter() {
@@ -41,4 +43,4 @@ public class GenreConverter implements Converter {
         }
         return "";
     }
-}
+}*/

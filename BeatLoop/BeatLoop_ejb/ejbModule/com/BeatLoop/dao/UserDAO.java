@@ -145,10 +145,7 @@ public class UserDAO {
 	    }
 	    return null; // Jeśli brak przypisanej roli
 	}
-/*
-	public List<Object[]> getUsersWithRoles() {
-	    return em.createQuery("SELECT u.username, u.roleRoleId.roleName FROM User u", Object[].class).getResultList();
-	}*/
+	
 	public List<User> getUsersWithRoles() {
 	    return em.createQuery("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roleRoleId", User.class).getResultList();
 	}
